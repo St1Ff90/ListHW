@@ -25,7 +25,7 @@ namespace ListHW
 
 
             myList.AddToEnd(4);
-            myList.AddToFront(5);
+            myList.AddByIndex(5, 3);
 
             foreach (var item in myList)
             {

@@ -34,10 +34,9 @@ namespace ListLibrary
             else
             {
                 _items = new T[capacity];
-
             }
         }
-      
+
         public int Capacity
         {
             get
@@ -46,13 +45,14 @@ namespace ListLibrary
             }
             set
             {
-                if(value < _size)
+                if (value < _size)
                 {
                     throw new ArgumentOutOfRangeException("Capacity is too small");
                 }
                 else
                 {
                     T[] newItems = new T[value];
+
                     if (_size > 0)
                     {
                         Array.Copy(_items, newItems, _size);
@@ -93,6 +93,34 @@ namespace ListLibrary
             _size++;
         }
 
+        public void AddByIndex(T item, int pos)
+        {
+            if (pos < 0 || pos >= _size)
+            {
+                throw new ArgumentOutOfRangeException("Index is out of range");
+            }
+
+            T[] newItems = new T[++_size];
+
+            for (int i = 0; i < _size; i++)
+            {
+                if (i < pos - 1)
+                {
+                    newItems[i] = _items[i];
+                }
+                else if (i == pos - 1)
+                {
+                    newItems[i] = item;
+                }
+                else
+                {
+                    newItems[i] = _items[i - 1];
+                }
+            }
+
+            _items = newItems;
+        }
+
         public T this[int index]
         {
             get
@@ -119,7 +147,7 @@ namespace ListLibrary
             int currentItem = 0;
             foreach (T item in _items)
             {
-                if(currentItem == _size)
+                if (currentItem == _size)
                 {
                     break;
                 }
