@@ -9,29 +9,25 @@ namespace ListHW
         static void Main(string[] args)
         {
             MyList<int> myList = new MyList<int>();
-            myList.AddToEnd(1);
-            myList.AddToEnd(2);
-            myList.AddToEnd(3);
+
+            myList.Add(1);
+            myList.Add(2);
+            myList.Add(3);
             myList[0] = 10;
 
             int dsds = myList[0];
 
+            List<int> vs = new List<int>() { 1, 2 };
 
+            myList.AddRange(new List<int> { 1, 2 });
 
-            foreach (var item in myList)
-            {
-                Console.WriteLine(item);
-            }
-
-
-            myList.AddToEnd(4);
-            myList.AddByIndex(5, 3);
+            myList.Add(4);
+            myList.AddByIndex(3, 4);
 
             foreach (var item in myList)
             {
                 Console.WriteLine(item);
             }
-
         }
     }
 }

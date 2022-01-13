@@ -70,7 +70,11 @@ namespace ListLibrary
 
         public int Count => _size;
 
-        public void AddToEnd(T item)
+        /// <summary>
+        /// Add to end.
+        /// </summary>
+        /// <param name="item">item</param>
+        public void Add(T item)
         {
             if (_size == _items.Length)
             {
@@ -79,6 +83,10 @@ namespace ListLibrary
             _items[_size++] = item;
         }
 
+        /// <summary>
+        /// Add one item to the start of list.
+        /// </summary>
+        /// <param name="item">item</param>
         public void AddToFront(T item)
         {
             if (_size == _items.Length)
@@ -93,6 +101,12 @@ namespace ListLibrary
             _size++;
         }
 
+        /// <summary>
+        /// Add one item  in pointed possition.
+        /// </summary>
+        /// <param name="item"> item </param>
+        /// <param name="pos"> position </param>
+
         public void AddByIndex(T item, int pos)
         {
             if (pos < 0 || pos >= _size)
@@ -100,9 +114,15 @@ namespace ListLibrary
                 throw new ArgumentOutOfRangeException("Index is out of range");
             }
 
-            T[] newItems = new T[++_size];
+            if (_size == _items.Length)
+            {
+                EnsureCapacity(_size + 1);
+            }
 
-            for (int i = 0; i < _size; i++)
+
+            T[] newItems = new T[_items.Length];
+
+            for (int i = 0; i < _size + 1; i++)
             {
                 if (i < pos - 1)
                 {
@@ -117,10 +137,10 @@ namespace ListLibrary
                     newItems[i] = _items[i - 1];
                 }
             }
-
+            _size++;
             _items = newItems;
         }
-
+        
         public T this[int index]
         {
             get
@@ -190,6 +210,59 @@ namespace ListLibrary
                 Capacity = newCapacity;
             }
         }
+
+        /*
+        public void InsertRange(int index, IEnumerable<T> collection)
+        {
+            if (collection == null)
+            {
+                throw new ArgumentNullException("Index is out of range");
+            }
+
+
+            ICollection<T> c = collection as ICollection<T>;
+            if (c != null)
+            {    // if collection is ICollection<T>
+                int count = c.Count;
+                if (count > 0)
+                {
+                    EnsureCapacity(_size + count);
+                    if (index < _size)
+                    {
+                        Array.Copy(_items, index, _items, index + count, _size - index);
+                    }
+
+                    // If we're inserting a List into itself, we want to be able to deal with that.
+                    if (this == c)
+                    {
+                        // Copy first part of _items to insert location
+                        Array.Copy(_items, 0, _items, index, index);
+                        // Copy last part of _items back to inserted location
+                        Array.Copy(_items, index + count, _items, index * 2, _size - index);
+                    }
+                    else
+                    {
+                        T[] itemsToInsert = new T[count];
+                        c.CopyTo(itemsToInsert, 0);
+                        itemsToInsert.CopyTo(_items, index);
+                    }
+                    _size += count;
+                }
+            }
+            else
+            {
+                using (IEnumerator<T> en = collection.GetEnumerator())
+                {
+                    while (en.MoveNext())
+                    {
+                        Insert(index++, en.Current);
+                    }
+                }
+            }
+            _version++;
+        }
+        */
+
 
         /*
       public MyList(IEnumerable<T> collection)
