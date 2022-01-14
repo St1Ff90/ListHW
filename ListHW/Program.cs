@@ -10,13 +10,12 @@ namespace ListHW
         {
             MyList<int> myList = new MyList<int>
             {
-                1, 2, 3, 4, 5, 6
+                1,2,3,4,5,6,7,8,9,10
             };
 
+           // myList.RemoveOneFromStart();
 
-            MyList<int> newMyList = new MyList<int>() {10, 11, 12, 13 };
-
-            myList.AddByIndex(2, newMyList);
+            myList.RemoveNFromIndex(9, 2);
 
 
             foreach (var item in myList)

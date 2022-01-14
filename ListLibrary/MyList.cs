@@ -40,6 +40,21 @@ namespace ListLibrary
             }
         }
 
+        public MyList(IEnumerable<T> collection)
+        {
+            if (collection == null)
+            {
+                throw new ArgumentException("Collection can't be null");
+            }
+
+            _items = _emptyArray;
+
+            foreach (T item in collection)
+            {
+                Add(item);
+            }
+        }
+
         public int Count => _size;
 
         public int Capacity
@@ -179,7 +194,6 @@ namespace ListLibrary
                 {
                     _items[i] = _items[i - 1];
                 }
-
             }
 
             _size++;
@@ -249,6 +263,122 @@ namespace ListLibrary
 
         #endregion
 
+        #region Remove
+
+        public void RemoveOneFromEnd()
+        {
+            if (_size == 0)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            _size--;
+        }
+
+        public void RemoveOneFromStart()
+        {
+            if (_size == 0)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            _size--;
+
+            for (int i = 0; i < _size; i++)
+            {
+                _items[i] = _items[i + 1];
+            }
+        }
+
+        public void RemoveAt(int index)
+        {
+            if (_size == 0 || index < 0 || index > _size)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            _size--;
+
+            for (int i = 0; i < _size; i++)
+            {
+                if (i >= index)
+                {
+                    _items[i] = _items[i + 1];
+                }
+            }
+        }
+
+        public void RemoveNFromEnd(int quantity)
+        {
+            if (_size < quantity)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            _size -= quantity;
+        }
+
+        public void RemoveNFromStart(int quantity)
+        {
+            if (_size < quantity)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            _size -= quantity;
+
+            for (int i = 0; i < _size; i++)
+            {
+                _items[i] = _items[i + quantity];
+            }
+        }
+
+        public void RemoveNFromIndex(int index, int quantity)
+        {
+            if (_size < quantity + index || index < 0 || index + quantity > _size)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            _size -= quantity;
+
+            for (int i = 0; i < _size; i++)
+            {
+                if (i >= index)
+                {
+                    _items[i] = _items[i + quantity];
+                }
+            }
+        }
+
+        public int Remove(T element)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException("Item can't be null");
+            }
+            if (_size == 0)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            for (int i = 0; i < _size; i++)
+            {
+                if (_items == element)
+                {
+
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public int RemoveAll(T elements)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
 
 
@@ -276,99 +406,12 @@ namespace ListLibrary
 
 
 
-        /*
-        public void InsertRange(int index, IEnumerable<T> collection)
-        {
-            if (collection == null)
-            {
-                throw new ArgumentNullException("Index is out of range");
-            }
 
 
-            ICollection<T> c = collection as ICollection<T>;
-            if (c != null)
-            {    // if collection is ICollection<T>
-                int count = c.Count;
-                if (count > 0)
-                {
-                    EnsureCapacity(_size + count);
-                    if (index < _size)
-                    {
-                        Array.Copy(_items, index, _items, index + count, _size - index);
-                    }
-
-                    // If we're inserting a List into itself, we want to be able to deal with that.
-                    if (this == c)
-                    {
-                        // Copy first part of _items to insert location
-                        Array.Copy(_items, 0, _items, index, index);
-                        // Copy last part of _items back to inserted location
-                        Array.Copy(_items, index + count, _items, index * 2, _size - index);
-                    }
-                    else
-                    {
-                        T[] itemsToInsert = new T[count];
-                        c.CopyTo(itemsToInsert, 0);
-                        itemsToInsert.CopyTo(_items, index);
-                    }
-                    _size += count;
-                }
-            }
-            else
-            {
-                using (IEnumerator<T> en = collection.GetEnumerator())
-                {
-                    while (en.MoveNext())
-                    {
-                        Insert(index++, en.Current);
-                    }
-                }
-            }
-            _version++;
-        }
-        */
 
 
-        /*
-      public MyList(IEnumerable<T> collection)
-      {
-          if (collection == null)
-          {
-              throw new ArgumentException("Collection can't be null");
-          }
 
-          ICollection<T> c = collection as ICollection<T>;
-          if (c != null)
-          {
-              int count = c.Count;
-              if (count == 0)
-              {
-                  _items = _emptyArray;
-              }
-              else
-              {
-                  _items = new T[count];
-                  c.CopyTo(_items, 0);
-                  _size = count;
-              }
-          }
-          else
-          {
-              _size = 0;
-              _items = _emptyArray;
-              // This enumerable could be empty.  Let Add allocate a new array, if needed.
-              // Note it will also go to _defaultCapacity first, not 1, then 2, etc.
 
-              using (IEnumerator<T> en = collection.GetEnumerator())
-              {
-                  while (en.MoveNext())
-                  {
-                      Add(en.Current);
-                  }
-              }
-          }
-      }
-      */
 
     }
 
