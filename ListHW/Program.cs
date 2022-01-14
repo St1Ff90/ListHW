@@ -8,21 +8,16 @@ namespace ListHW
     {
         static void Main(string[] args)
         {
-            MyList<int> myList = new MyList<int>();
+            MyList<int> myList = new MyList<int>
+            {
+                1, 2, 3, 4, 5, 6
+            };
 
-            myList.Add(1);
-            myList.Add(2);
-            myList.Add(3);
-            myList[0] = 10;
 
-            int dsds = myList[0];
+            MyList<int> newMyList = new MyList<int>() {10, 11, 12, 13 };
 
-            List<int> vs = new List<int>() { 1, 2 };
+            myList.AddByIndex(2, newMyList);
 
-            myList.AddRange(new List<int> { 1, 2 });
-
-            myList.Add(4);
-            myList.AddByIndex(3, 4);
 
             foreach (var item in myList)
             {

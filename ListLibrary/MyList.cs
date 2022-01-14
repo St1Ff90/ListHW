@@ -4,15 +4,18 @@ using System.Collections.Generic;
 
 namespace ListLibrary
 {
-    public class MyList<T> : IEnumerable
+    public class MyList<T> : IMyList<T>, IEnumerable<T> where T : IComparable<T>
     {
         private const int _defaultCapacity = 4;
-        private const double _capacityRise = 1.5;
+        private const double _capacityRise = 1.33;
 
         private T[] _items;
         private int _size;
 
         static readonly T[] _emptyArray = new T[0];
+
+
+        #region Constructors, Propeerties and Interfaces implementation
 
         public MyList()
         {
@@ -36,6 +39,8 @@ namespace ListLibrary
                 _items = new T[capacity];
             }
         }
+
+        public int Count => _size;
 
         public int Capacity
         {
@@ -68,114 +73,11 @@ namespace ListLibrary
             }
         }
 
-        public int Count => _size;
-
-        /// <summary>
-        /// Add to end.
-        /// </summary>
-        /// <param name="item">item</param>
-        public void Add(T item)
-        {
-            if (_size == _items.Length)
-            {
-                EnsureCapacity(_size + 1);
-            }
-            _items[_size++] = item;
-        }
-
-        /// <summary>
-        /// Add one item to the start of list.
-        /// </summary>
-        /// <param name="item">item</param>
-        public void AddToFront(T item)
-        {
-            if (_size == _items.Length)
-            {
-                EnsureCapacity(_size + 1);
-            }
-
-            T[] newItems = new T[_items.Length + 1];
-            newItems[0] = item;
-            Array.Copy(_items, 0, newItems, 1, _items.Length);
-            _items = newItems;
-            _size++;
-        }
-
-        /// <summary>
-        /// Add one item  in pointed possition.
-        /// </summary>
-        /// <param name="item"> item </param>
-        /// <param name="pos"> position </param>
-
-        public void AddByIndex(T item, int pos)
-        {
-            if (pos < 0 || pos >= _size)
-            {
-                throw new ArgumentOutOfRangeException("Index is out of range");
-            }
-
-            if (_size == _items.Length)
-            {
-                EnsureCapacity(_size + 1);
-            }
-
-
-            T[] newItems = new T[_items.Length];
-
-            for (int i = 0; i < _size + 1; i++)
-            {
-                if (i < pos - 1)
-                {
-                    newItems[i] = _items[i];
-                }
-                else if (i == pos - 1)
-                {
-                    newItems[i] = item;
-                }
-                else
-                {
-                    newItems[i] = _items[i - 1];
-                }
-            }
-            _size++;
-            _items = newItems;
-        }
-        
-        public T this[int index]
-        {
-            get
-            {
-                if (index >= _size || index < 0)
-                {
-                    throw new ArgumentOutOfRangeException("Index is out of range");
-                }
-                return _items[index];
-            }
-
-            set
-            {
-                if (index >= _size || index < 0)
-                {
-                    throw new ArgumentOutOfRangeException("Index is out of range" + _size);
-                }
-                _items[index] = value;
-            }
-        }
-
         public IEnumerator<T> GetEnumerator()
         {
-            int currentItem = 0;
-            foreach (T item in _items)
+            for (int i = 0; i < _size; i++)
             {
-                if (currentItem == _size)
-                {
-                    break;
-                }
-                else
-                {
-                    yield return item;
-                }
-                currentItem++;
+                yield return _items[i];
             }
         }
 
@@ -210,6 +112,169 @@ namespace ListLibrary
                 Capacity = newCapacity;
             }
         }
+
+        #endregion
+
+        #region Add methods
+
+        /// <summary>
+        /// Add to end.
+        /// </summary>
+        /// <param name="item">item</param>
+        public void Add(T item)
+        {
+            if (_size == _items.Length)
+            {
+                EnsureCapacity(_size + 1);
+            }
+            _items[_size++] = item;
+        }
+
+        /// <summary>
+        /// Add one item to the start of list.
+        /// </summary>
+        /// <param name="item">item</param>
+        public void AddToFront(T item)
+        {
+            if (_size == _items.Length)
+            {
+                EnsureCapacity(_size + 1);
+            }
+
+            for (int i = _size - 1; i >= 0; i--)
+            {
+                _items[i + 1] = _items[i];
+            }
+
+            _items[0] = item;
+            _size++;
+        }
+
+        /// <summary>
+        /// Add one item  in pointed possition.
+        /// </summary>
+        /// <param name="item"> item </param>
+        /// <param name="pos"> position </param>
+
+        public void AddByIndex(int pos, T item)
+        {
+            if (pos < 0 || pos > _size)
+            {
+                throw new ArgumentOutOfRangeException("Index is out of range");
+            }
+
+            if (_size == _items.Length)
+            {
+                EnsureCapacity(_size + 1);
+            }
+
+            for (int i = _size; i > 0; i--)
+            {
+                if (i == pos)
+                {
+                    _items[i] = item;
+                    break;
+                }
+                else
+                {
+                    _items[i] = _items[i - 1];
+                }
+
+            }
+
+            _size++;
+        }
+
+        public void Add(MyList<T> items)
+        {
+            var newSize = _size + items.Count;
+            if (newSize >= _items.Length)
+            {
+                EnsureCapacity(newSize);
+            }
+
+            for (int i = Count, j = 0; i < newSize; i++, j++)
+            {
+                _items[i] = items[j];
+            }
+
+            _size = newSize;
+        }
+
+        public void AddToFront(MyList<T> items)
+        {
+
+            var newSize = _size + items.Count;
+            if (newSize >= _items.Length)
+            {
+                EnsureCapacity(newSize);
+            }
+
+            for (int i = _size - 1; i >= 0; i--)
+            {
+                _items[i + items.Count] = _items[i];
+            }
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                _items[i] = items[i];
+            }
+
+            _size += items.Count;
+        }
+
+        public void AddByIndex(int pos, MyList<T> items)
+        {
+            var newSize = _size + items.Count;
+            if (newSize >= _items.Length)
+            {
+                EnsureCapacity(newSize);
+            }
+
+            _size += items.Count;
+
+            for (int i = _size - 1, j = items.Count - 1; j >= 0; i--)
+            {
+                if (i == pos + j)
+                {
+                    _items[i] = items[j];
+                    j--;
+                }
+                else
+                {
+                    _items[i] = _items[i - items.Count];
+                }
+            }
+        }
+
+        #endregion
+
+
+
+
+
+        public T this[int index]
+        {
+            get
+            {
+                if (index >= _size || index < 0)
+                {
+                    throw new ArgumentOutOfRangeException("Index is out of range");
+                }
+                return _items[index];
+            }
+
+            set
+            {
+                if (index >= _size || index < 0)
+                {
+                    throw new ArgumentOutOfRangeException("Index is out of range" + _size);
+                }
+                _items[index] = value;
+            }
+        }
+
+
 
         /*
         public void InsertRange(int index, IEnumerable<T> collection)
