@@ -366,7 +366,6 @@ namespace ListLibrary
             {
                 if (_items == element)
                 {
-
                     return i;
                 }
             }
