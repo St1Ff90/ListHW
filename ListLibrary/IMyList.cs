@@ -6,17 +6,12 @@ namespace ListLibrary
 {
     public interface IMyList<T> : IEnumerable<T> where T : IComparable<T>
     {
+
         void Add(T item); //1
 
         void AddToFront(T item); //2
 
         void AddByIndex(int index, T item); //3
-
-        void Add(MyList<T> items); // 24
-
-        void AddToFront(MyList<T> items); //25
-
-        void AddByIndex(int index, MyList<T> items); //26
 
         void RemoveOneFromEnd(); //4
 
@@ -30,16 +25,37 @@ namespace ListLibrary
 
         void RemoveNFromIndex(int index, int quantity); //9
 
-        int Remove(T element); //21
-
-        int RemoveAll(T elements); //22
-
-        // Constructors //23
-
-        int Capacity { get; set; }
-
         int Count { get; }  //10
 
         T this[int index] { get; set; } //11, 13
+
+        int IndexOf(T item); //12
+
+        void Reverse(); //14
+
+        T Max(); //15
+
+        T Min(); //16
+
+        int IndexOfMax(); //17
+
+        int IndexOfMin(); //18
+
+        void SortByAsc(); //19
+
+        void SortByDesc(); //20
+
+        int Remove(T element); //21
+
+        int RemoveAll(T element); //22
+
+        // Constructors //23
+
+        void Add(MyList<T> items); // 24
+
+        void AddToFront(MyList<T> items); //25
+
+        void AddByIndex(int index, MyList<T> items); //26
+
     }
 }

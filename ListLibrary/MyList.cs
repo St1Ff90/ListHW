@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ListLibrary
 {
-    public class MyList<T> : IMyList<T>, IEnumerable<T> where T : IComparable<T>
+    public class MyList<T> : IMyList<T> where T : IComparable<T>
     {
         private const int _defaultCapacity = 4;
         private const double _capacityRise = 1.33;
@@ -13,7 +13,6 @@ namespace ListLibrary
         private int _size;
 
         static readonly T[] _emptyArray = new T[0];
-
 
         #region Constructors, Propeerties and Interfaces implementation
 
@@ -357,6 +356,7 @@ namespace ListLibrary
             {
                 throw new ArgumentNullException("Item can't be null");
             }
+
             if (_size == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
@@ -364,23 +364,203 @@ namespace ListLibrary
 
             for (int i = 0; i < _size; i++)
             {
-                if (_items == element)
+                if (_items[i].Equals(element))
                 {
+                    RemoveAt(i);
                     return i;
                 }
             }
+
             return -1;
         }
 
-        public int RemoveAll(T elements)
+        public int RemoveAll(T element)
         {
-            throw new NotImplementedException();
+            if (element == null)
+            {
+                throw new ArgumentNullException("Item can't be null");
+            }
+
+            if (_size == 0)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            int result = 0;
+
+            for (int i = 0; i < _size; i++)
+            {
+                if (_items[i].Equals(element))
+                {
+                    RemoveAt(i);
+                    result++;
+                }
+            }
+
+            return result;
         }
 
         #endregion
 
+        #region Search and Sort
 
+        public int IndexOf(T item)
+        {
+            if (item == null)
+            {
+                throw new ArgumentNullException("Item");
+            }
 
+            int result = -1;
+
+            for (int i = 0; i < _size; i++)
+            {
+                if (_items[i].Equals(item))
+                {
+                    result = i;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        public T Max()
+        {
+            if (_size == 0)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            T result = _items[0];
+
+            for (int i = 1; i < _size; i++)
+            {
+                if (_items[i].CompareTo(result) == 1)
+                {
+                    result = _items[i];
+                }
+            }
+
+            return result;
+        }
+
+        public T Min()
+        {
+            if (_size == 0)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            T result = _items[0];
+
+            for (int i = 1; i < _size; i++)
+            {
+                if (_items[i].CompareTo(result) == -1)
+                {
+                    result = _items[i];
+                }
+            }
+
+            return result;
+        }
+
+        public int IndexOfMax()
+        {
+            if (_size == 0)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            int result = 0;
+
+            for (int i = 1; i < _size; i++)
+            {
+                if (_items[i].CompareTo(_items[result]) == 1)
+                {
+                    result = i;
+                }
+            }
+
+            return result;
+        }
+
+        public int IndexOfMin()
+        {
+            if (_size == 0)
+            {
+                throw new ArgumentOutOfRangeException("Size");
+            }
+
+            int result = 0;
+
+            for (int i = 1; i < _size; i++)
+            {
+                if (_items[i].CompareTo(_items[result]) == -1)
+                {
+                    result = i;
+                }
+            }
+
+            return result;
+        }
+
+        public void SortByDesc()
+        {
+            T x;
+            int j;
+
+            for (int i = 1; i < _size; i++)
+            {
+                x = _items[i];
+                j = i;
+                while (j > 0 && _items[j - 1].CompareTo(x) == -1)
+                {
+                    Swap(ref _items[j], ref _items[j - 1]);
+                    j -= 1;
+                }
+
+                _items[j] = x;
+            }
+        }
+
+        public void SortByAsc()
+        {
+            for (int i = 0; i < _size - 1; i++)
+            {
+                int min = i;
+
+                for (int j = i + 1; j < _size; j++)
+                {
+
+                    if (_items[j].CompareTo(_items[min]) == -1)
+                    {
+                        min = j;
+                    }
+                }
+
+                Swap(ref _items[i], ref _items[min]);
+            }
+        }
+
+        #endregion
+
+        #region Other
+
+        public void Reverse()
+        {
+            for (int i = 0; i < _size / 2; i++)
+            {
+                Swap(ref _items[i], ref _items[_size - 1 - i]);
+            }
+        }
+
+        private void Swap(ref T i, ref T j)
+        {
+            T temp = i;
+            i = j;
+            j = temp;
+        }
 
         public T this[int index]
         {
@@ -403,14 +583,7 @@ namespace ListLibrary
             }
         }
 
-
-
-
-
-
-
-
-
+        #endregion
 
     }
 
