@@ -12,17 +12,17 @@ namespace ListLibrary
 
         void AddByIndex(int index, T item); //3
 
-        void RemoveOneFromEnd(); //4
+        void RemoveBack(); //4
 
-        void RemoveOneFromStart(); //5
+        void RemoveFront(); //5
 
         void RemoveAt(int index); //6
 
-        void RemoveNFromEnd(int quantity); //7
+        void RemoveBack(int quantity); //7
 
-        void RemoveNFromStart(int quantity); //8
+        void RemoveFront(int quantity); //8
 
-        void RemoveNFromIndex(int index, int quantity); //9
+        void RemoveAt(int index, int quantity); //9
 
         int Count { get; }  //10
 

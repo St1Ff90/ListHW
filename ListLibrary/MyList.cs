@@ -90,7 +90,6 @@ namespace ListLibrary
         /// </summary>
         /// <param name="item"> item </param>
         /// <param name="pos"> position </param>
-
         public void AddByIndex(int pos, T item)
         {
             if (pos < 0 || pos > _size)
@@ -131,6 +130,11 @@ namespace ListLibrary
 
         public void AddByIndex(int pos, MyList<T> items)
         {
+            if (pos < 0 || pos > _size)
+            {
+                throw new ArgumentOutOfRangeException("Index is out of range");
+            }
+
             var newSize = _size + items.Count;
 
             if (newSize >= _items.Length)
@@ -138,27 +142,24 @@ namespace ListLibrary
                 UpdateCapacity(newSize);
             }
 
-            _size += items.Count;
-
-            for (int i = _size - 1, j = items.Count - 1; j >= 0; i--)
+            for (int i = _size - 1; i >= pos; i--)
             {
-                if (i == pos + j)
-                {
-                    _items[i] = items[j];
-                    j--;
-                }
-                else
-                {
-                    _items[i] = _items[i - items.Count];
-                }
+                _items[i + items.Count] = _items[i];
             }
+
+            for (int i = pos; i < items.Count + pos; i++)
+            {
+                _items[i] = items[i - pos];
+            }
+
+            _size = newSize;
         }
 
         #endregion
 
         #region Remove
 
-        public void RemoveOneFromEnd()
+        public void RemoveBack()
         {
             if (_size == 0)
             {
@@ -168,7 +169,7 @@ namespace ListLibrary
             _size--;
         }
 
-        public void RemoveOneFromStart()
+        public void RemoveFront()
         {
             if (_size == 0)
             {
@@ -185,9 +186,14 @@ namespace ListLibrary
 
         public void RemoveAt(int index)
         {
-            if (_size == 0 || index < 0 || index > _size)
+            if (_size == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
+            }
+
+            if (index < 0 || index > _size)
+            {
+                throw new ArgumentException("Wrong index");
             }
 
             _size--;
@@ -201,7 +207,7 @@ namespace ListLibrary
             }
         }
 
-        public void RemoveNFromEnd(int quantity)
+        public void RemoveBack(int quantity)
         {
             if (_size < quantity)
             {
@@ -211,7 +217,7 @@ namespace ListLibrary
             _size -= quantity;
         }
 
-        public void RemoveNFromStart(int quantity)
+        public void RemoveFront(int quantity)
         {
             if (_size < quantity)
             {
@@ -226,11 +232,16 @@ namespace ListLibrary
             }
         }
 
-        public void RemoveNFromIndex(int index, int quantity)
+        public void RemoveAt(int index, int quantity)
         {
-            if (_size < quantity + index || index < 0 || index + quantity > _size)
+            if (_size == 0 || index + quantity > _size)
             {
                 throw new ArgumentOutOfRangeException("Size");
+            }
+
+            if (_size < quantity + index || index < 0)
+            {
+                throw new ArgumentException("Wrong index setted");
             }
 
             _size -= quantity;
@@ -246,6 +257,8 @@ namespace ListLibrary
 
         public int Remove(T element)
         {
+            int result = -1;
+
             if (element == null)
             {
                 throw new ArgumentNullException("Item can't be null");
@@ -261,11 +274,11 @@ namespace ListLibrary
                 if (_items[i].Equals(element))
                 {
                     RemoveAt(i);
-                    return i;
+                    result = i;
                 }
             }
 
-            return -1;
+            return result;
         }
 
         public int RemoveAll(T element)
@@ -401,40 +414,12 @@ namespace ListLibrary
 
         public void SortByDesc()
         {
-            T x;
-            int j;
-
-            for (int i = 1; i < _size; i++)
-            {
-                x = _items[i];
-                j = i;
-                while (j > 0 && _items[j - 1].CompareTo(x) == -1)
-                {
-                    Swap(ref _items[j], ref _items[j - 1]);
-                    j -= 1;
-                }
-
-                _items[j] = x;
-            }
+            Sort(-1);
         }
 
         public void SortByAsc()
         {
-            for (int i = 0; i < _size - 1; i++)
-            {
-                int min = i;
-
-                for (int j = i + 1; j < _size; j++)
-                {
-
-                    if (_items[j].CompareTo(_items[min]) == -1)
-                    {
-                        min = j;
-                    }
-                }
-
-                Swap(ref _items[i], ref _items[min]);
-            }
+            Sort(1);
         }
 
         #endregion
@@ -457,6 +442,7 @@ namespace ListLibrary
                 {
                     throw new ArgumentOutOfRangeException("Index is out of range");
                 }
+
                 return _items[index];
             }
 
@@ -466,6 +452,7 @@ namespace ListLibrary
                 {
                     throw new ArgumentOutOfRangeException("Index is out of range" + _size);
                 }
+
                 _items[index] = value;
             }
         }
@@ -482,11 +469,6 @@ namespace ListLibrary
             if (_items.Length < min)
             {
                 int newCapacity = (int)(_items.Length * _capacityRise);
-
-                if (newCapacity > int.MaxValue)
-                {
-                    newCapacity = int.MaxValue;
-                }
 
                 if (newCapacity < min)
                 {
@@ -506,6 +488,25 @@ namespace ListLibrary
                 {
                     _items = new T[_defaultCapacity];
                 }
+            }
+        }
+
+        private void Sort(int type)
+        {
+            T x;
+            int j;
+
+            for (int i = 1; i < _size; i++)
+            {
+                x = _items[i];
+                j = i;
+                while (j > 0 && _items[j - 1].CompareTo(x) == type)
+                {
+                    Swap(ref _items[j], ref _items[j - 1]);
+                    j -= 1;
+                }
+
+                _items[j] = x;
             }
         }
 

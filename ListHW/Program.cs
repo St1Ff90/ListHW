@@ -8,9 +8,11 @@ namespace ListHW
     {
         static void Main(string[] args)
         {
-            var one = new MyList<int>() {999, 988};
-            var two = new MyList<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-            two.Add(one);
+            var one = new MyList<int>() {999, 7};
+            var two = new MyList<int>() { 1, 9, 3, 14, };
+            two.AddByIndex(0, one);
+            two.SortByAsc();
+            two.SortByDesc();
 
             /*
             myList.AddByIndex(0, myLis2t);
