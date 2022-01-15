@@ -12,13 +12,15 @@ namespace ListLibrary
         private T[] _items;
         private int _size;
 
-        static readonly T[] _emptyArray = new T[0];
+        public int Count => _size;
 
-        #region Constructors, Propeerties and Interfaces implementation
+        public int Capacity => _items.Length;
+
+        #region Constructors and Interfaces implementation
 
         public MyList()
         {
-            _items = _emptyArray;
+            _items = new T[_defaultCapacity];
         }
 
         public MyList(int capacity)
@@ -28,10 +30,9 @@ namespace ListLibrary
                 throw new ArgumentException("Capacity should be >= 0");
             }
 
-            if (capacity == 0)
+            if (capacity >= 0 && capacity < 4)
             {
-                _items = _emptyArray;
-
+                _items = new T[_defaultCapacity];
             }
             else
             {
@@ -41,49 +42,11 @@ namespace ListLibrary
 
         public MyList(IEnumerable<T> collection)
         {
-            if (collection == null)
-            {
-                throw new ArgumentException("Collection can't be null");
-            }
-
-            _items = _emptyArray;
+            _items = new T[_defaultCapacity];
 
             foreach (T item in collection)
             {
                 Add(item);
-            }
-        }
-
-        public int Count => _size;
-
-        public int Capacity
-        {
-            get
-            {
-                return _items.Length;
-            }
-            set
-            {
-                if (value < _size)
-                {
-                    throw new ArgumentOutOfRangeException("Capacity is too small");
-                }
-                else
-                {
-                    T[] newItems = new T[value];
-
-                    if (_size > 0)
-                    {
-                        Array.Copy(_items, newItems, _size);
-                    }
-
-                    _items = newItems;
-
-                    if (value < 0)
-                    {
-                        _items = _emptyArray;
-                    }
-                }
             }
         }
 
@@ -100,33 +63,6 @@ namespace ListLibrary
             return GetEnumerator();
         }
 
-        private void EnsureCapacity(int min)
-        {
-            if (_items.Length < min)
-            {
-                int newCapacity;
-                if (_items.Length == 0)
-                {
-                    newCapacity = _defaultCapacity;
-                }
-                else
-                {
-                    newCapacity = (int)(_items.Length * _capacityRise);
-                }
-
-                if (newCapacity > int.MaxValue)
-                {
-                    newCapacity = int.MaxValue;
-                }
-                if (newCapacity < min)
-                {
-                    newCapacity = min;
-                }
-
-                Capacity = newCapacity;
-            }
-        }
-
         #endregion
 
         #region Add methods
@@ -137,31 +73,16 @@ namespace ListLibrary
         /// <param name="item">item</param>
         public void Add(T item)
         {
-            if (_size == _items.Length)
-            {
-                EnsureCapacity(_size + 1);
-            }
-            _items[_size++] = item;
+            AddByIndex(_size, item);
         }
 
         /// <summary>
         /// Add one item to the start of list.
         /// </summary>
         /// <param name="item">item</param>
-        public void AddToFront(T item)
+        public void AddFront(T item)
         {
-            if (_size == _items.Length)
-            {
-                EnsureCapacity(_size + 1);
-            }
-
-            for (int i = _size - 1; i >= 0; i--)
-            {
-                _items[i + 1] = _items[i];
-            }
-
-            _items[0] = item;
-            _size++;
+            AddByIndex(0, item);
         }
 
         /// <summary>
@@ -179,10 +100,10 @@ namespace ListLibrary
 
             if (_size == _items.Length)
             {
-                EnsureCapacity(_size + 1);
+                UpdateCapacity(_size + 1);
             }
 
-            for (int i = _size; i > 0; i--)
+            for (int i = _size; i >= 0; i--)
             {
                 if (i == pos)
                 {
@@ -200,48 +121,21 @@ namespace ListLibrary
 
         public void Add(MyList<T> items)
         {
-            var newSize = _size + items.Count;
-            if (newSize >= _items.Length)
-            {
-                EnsureCapacity(newSize);
-            }
-
-            for (int i = Count, j = 0; i < newSize; i++, j++)
-            {
-                _items[i] = items[j];
-            }
-
-            _size = newSize;
+            AddByIndex(_size, items);
         }
 
-        public void AddToFront(MyList<T> items)
+        public void AddFront(MyList<T> items)
         {
-
-            var newSize = _size + items.Count;
-            if (newSize >= _items.Length)
-            {
-                EnsureCapacity(newSize);
-            }
-
-            for (int i = _size - 1; i >= 0; i--)
-            {
-                _items[i + items.Count] = _items[i];
-            }
-
-            for (int i = 0; i < items.Count; i++)
-            {
-                _items[i] = items[i];
-            }
-
-            _size += items.Count;
+            AddByIndex(0, items);
         }
 
         public void AddByIndex(int pos, MyList<T> items)
         {
             var newSize = _size + items.Count;
+
             if (newSize >= _items.Length)
             {
-                EnsureCapacity(newSize);
+                UpdateCapacity(newSize);
             }
 
             _size += items.Count;
@@ -555,13 +449,6 @@ namespace ListLibrary
             }
         }
 
-        private void Swap(ref T i, ref T j)
-        {
-            T temp = i;
-            i = j;
-            j = temp;
-        }
-
         public T this[int index]
         {
             get
@@ -585,6 +472,48 @@ namespace ListLibrary
 
         #endregion
 
-    }
+        private void UpdateCapacity(int min)
+        {
+            if (min < _size)
+            {
+                throw new ArgumentOutOfRangeException("Capacity is too small");
+            }
 
+            if (_items.Length < min)
+            {
+                int newCapacity = (int)(_items.Length * _capacityRise);
+
+                if (newCapacity > int.MaxValue)
+                {
+                    newCapacity = int.MaxValue;
+                }
+
+                if (newCapacity < min)
+                {
+                    newCapacity = min;
+                }
+
+                T[] newItems = new T[newCapacity];
+
+                if (_size > 0)
+                {
+                    Array.Copy(_items, newItems, _size);
+                }
+
+                _items = newItems;
+
+                if (newCapacity < 0)
+                {
+                    _items = new T[_defaultCapacity];
+                }
+            }
+        }
+
+        private void Swap(ref T i, ref T j)
+        {
+            T temp = i;
+            i = j;
+            j = temp;
+        }
+    }
 }
