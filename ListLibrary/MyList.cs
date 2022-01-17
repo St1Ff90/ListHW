@@ -118,17 +118,17 @@ namespace ListLibrary
             _size++;
         }
 
-        public void Add(MyList<T> items)
+        public void Add(IMyList<T> items)
         {
             AddByIndex(_size, items);
         }
 
-        public void AddFront(MyList<T> items)
+        public void AddFront(IMyList<T> items)
         {
             AddByIndex(0, items);
         }
 
-        public void AddByIndex(int pos, MyList<T> items)
+        public void AddByIndex(int pos, IMyList<T> items)
         {
             if (pos < 0 || pos > _size)
             {
@@ -191,7 +191,7 @@ namespace ListLibrary
                 throw new ArgumentOutOfRangeException("Size");
             }
 
-            if (index < 0 || index > _size)
+            if (index < 0 || index >= _size)
             {
                 throw new ArgumentException("Wrong index");
             }
@@ -234,7 +234,7 @@ namespace ListLibrary
 
         public void RemoveAt(int index, int quantity)
         {
-            if (_size == 0 || index + quantity > _size)
+            if (_size == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
@@ -299,7 +299,7 @@ namespace ListLibrary
             {
                 if (_items[i].Equals(element))
                 {
-                    RemoveAt(i);
+                    RemoveAt(i--);
                     result++;
                 }
             }

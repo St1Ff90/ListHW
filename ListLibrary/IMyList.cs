@@ -26,6 +26,8 @@ namespace ListLibrary
 
         int Count { get; }  //10
 
+        int Capacity { get; }  //10
+
         T this[int index] { get; set; } //11, 13
 
         int IndexOf(T item); //12
@@ -50,10 +52,10 @@ namespace ListLibrary
 
         // Constructors //23
 
-        void Add(MyList<T> items); // 24
+        void Add(IMyList<T> items); // 24
 
-        void AddFront(MyList<T> items); //25
+        void AddFront(IMyList<T> items); //25
 
-        void AddByIndex(int index, MyList<T> items); //26
+        void AddByIndex(int index, IMyList<T> items); //26
     }
 }
