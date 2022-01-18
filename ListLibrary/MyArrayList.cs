@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ListLibrary
 {
-    public class MyList<T> : IMyList<T> where T : IComparable<T>
+    public class MyArrayList<T> : IMyList<T> where T : IComparable<T>
     {
         private const int _defaultCapacity = 4;
         private const double _capacityRise = 1.33;
@@ -18,41 +18,36 @@ namespace ListLibrary
 
         #region Constructors and Interfaces implementation
 
-        public MyList()
+        public MyArrayList()
         {
             _items = new T[_defaultCapacity];
         }
 
-        public MyList(int capacity)
+        public MyArrayList(T element)
         {
-            if (capacity < 0)
-            {
-                throw new ArgumentException("Capacity should be >= 0");
-            }
-
-            if (capacity >= 0 && capacity < 4)
+            if (element != null)
             {
                 _items = new T[_defaultCapacity];
-            }
-            else
-            {
-                _items = new T[capacity];
+                Add(element);
             }
         }
 
-        public MyList(IEnumerable<T> collection)
+        public MyArrayList(IEnumerable<T> collection)
         {
-            _items = new T[_defaultCapacity];
-
-            foreach (T item in collection)
+            if (collection != null)
             {
-                Add(item);
+                _items = new T[_defaultCapacity];
+
+                foreach (T item in collection)
+                {
+                    Add(item);
+                }
             }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < Count; i++)
             {
                 yield return _items[i];
             }
@@ -73,7 +68,7 @@ namespace ListLibrary
         /// <param name="item">item</param>
         public void Add(T item)
         {
-            AddByIndex(_size, item);
+            AddByIndex(Count, item);
         }
 
         /// <summary>
@@ -92,17 +87,17 @@ namespace ListLibrary
         /// <param name="pos"> position </param>
         public void AddByIndex(int pos, T item)
         {
-            if (pos < 0 || pos > _size)
+            if (pos < 0 || pos > Count)
             {
                 throw new ArgumentOutOfRangeException("Index is out of range");
             }
 
-            if (_size == _items.Length)
+            if (Count == _items.Length)
             {
-                UpdateCapacity(_size + 1);
+                UpdateCapacity(Count + 1);
             }
 
-            for (int i = _size; i >= 0; i--)
+            for (int i = Count; i >= 0; i--)
             {
                 if (i == pos)
                 {
@@ -120,7 +115,7 @@ namespace ListLibrary
 
         public void Add(IEnumerable<T> items)
         {
-            AddByIndex(_size, items);
+            AddByIndex(Count, items);
         }
 
         public void AddFront(IEnumerable<T> items)
@@ -130,7 +125,7 @@ namespace ListLibrary
 
         public void AddByIndex(int pos, IEnumerable<T> items)
         {
-            if (pos < 0 || pos > _size)
+            if (pos < 0 || pos > Count)
             {
                 throw new ArgumentOutOfRangeException("Index is out of range");
             }
@@ -144,14 +139,14 @@ namespace ListLibrary
 
             if (itemsCount > 0)
             {
-                var newSize = _size + itemsCount;
+                var newSize = Count + itemsCount;
 
                 if (newSize >= _items.Length)
                 {
                     UpdateCapacity(newSize);
                 }
 
-                for (int i = _size - 1; i >= pos; i--)
+                for (int i = Count - 1; i >= pos; i--)
                 {
                     _items[i + itemsCount] = _items[i];
                 }
@@ -171,7 +166,7 @@ namespace ListLibrary
 
         public void RemoveBack()
         {
-            if (_size == 0)
+            if (Count == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
@@ -181,14 +176,14 @@ namespace ListLibrary
 
         public void RemoveFront()
         {
-            if (_size == 0)
+            if (Count == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
 
             _size--;
 
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < Count; i++)
             {
                 _items[i] = _items[i + 1];
             }
@@ -196,19 +191,19 @@ namespace ListLibrary
 
         public void RemoveAt(int index)
         {
-            if (_size == 0)
+            if (Count == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
 
-            if (index < 0 || index >= _size)
+            if (index < 0 || index >= Count)
             {
                 throw new ArgumentException("Wrong index");
             }
 
             _size--;
 
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < Count; i++)
             {
                 if (i >= index)
                 {
@@ -219,7 +214,7 @@ namespace ListLibrary
 
         public void RemoveBack(int quantity)
         {
-            if (_size < quantity)
+            if (Count < quantity)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
@@ -229,14 +224,14 @@ namespace ListLibrary
 
         public void RemoveFront(int quantity)
         {
-            if (_size < quantity)
+            if (Count < quantity)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
 
             _size -= quantity;
 
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < Count; i++)
             {
                 _items[i] = _items[i + quantity];
             }
@@ -244,19 +239,19 @@ namespace ListLibrary
 
         public void RemoveAt(int index, int quantity)
         {
-            if (_size == 0)
+            if (Count == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
 
-            if (_size < quantity + index || index < 0)
+            if (Count < quantity + index || index < 0)
             {
                 throw new ArgumentException("Wrong index setted");
             }
 
             _size -= quantity;
 
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < Count; i++)
             {
                 if (i >= index)
                 {
@@ -274,12 +269,12 @@ namespace ListLibrary
                 throw new ArgumentNullException("Item can't be null");
             }
 
-            if (_size == 0)
+            if (Count == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
 
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < Count; i++)
             {
                 if (_items[i].Equals(element))
                 {
@@ -298,14 +293,14 @@ namespace ListLibrary
                 throw new ArgumentNullException("Item can't be null");
             }
 
-            if (_size == 0)
+            if (Count == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
 
             int result = 0;
 
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < Count; i++)
             {
                 if (_items[i].Equals(element))
                 {
@@ -330,7 +325,7 @@ namespace ListLibrary
 
             int result = -1;
 
-            for (int i = 0; i < _size; i++)
+            for (int i = 0; i < Count; i++)
             {
                 if (_items[i].Equals(item))
                 {
@@ -344,14 +339,14 @@ namespace ListLibrary
 
         public T Max()
         {
-            if (_size == 0)
+            if (Count == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
 
             T result = _items[0];
 
-            for (int i = 1; i < _size; i++)
+            for (int i = 1; i < Count; i++)
             {
                 if (_items[i].CompareTo(result) == 1)
                 {
@@ -364,14 +359,14 @@ namespace ListLibrary
 
         public T Min()
         {
-            if (_size == 0)
+            if (Count == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
 
             T result = _items[0];
 
-            for (int i = 1; i < _size; i++)
+            for (int i = 1; i < Count; i++)
             {
                 if (_items[i].CompareTo(result) == -1)
                 {
@@ -384,14 +379,14 @@ namespace ListLibrary
 
         public int IndexOfMax()
         {
-            if (_size == 0)
+            if (Count == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
 
             int result = 0;
 
-            for (int i = 1; i < _size; i++)
+            for (int i = 1; i < Count; i++)
             {
                 if (_items[i].CompareTo(_items[result]) == 1)
                 {
@@ -404,14 +399,14 @@ namespace ListLibrary
 
         public int IndexOfMin()
         {
-            if (_size == 0)
+            if (Count == 0)
             {
                 throw new ArgumentOutOfRangeException("Size");
             }
 
             int result = 0;
 
-            for (int i = 1; i < _size; i++)
+            for (int i = 1; i < Count; i++)
             {
                 if (_items[i].CompareTo(_items[result]) == -1)
                 {
@@ -438,9 +433,9 @@ namespace ListLibrary
 
         public void Reverse()
         {
-            for (int i = 0; i < _size / 2; i++)
+            for (int i = 0; i < Count / 2; i++)
             {
-                Swap(ref _items[i], ref _items[_size - 1 - i]);
+                Swap(ref _items[i], ref _items[Count - 1 - i]);
             }
         }
 
@@ -448,7 +443,7 @@ namespace ListLibrary
         {
             get
             {
-                if (index >= _size || index < 0)
+                if (index >= Count || index < 0)
                 {
                     throw new ArgumentOutOfRangeException("Index is out of range");
                 }
@@ -458,7 +453,7 @@ namespace ListLibrary
 
             set
             {
-                if (index >= _size || index < 0)
+                if (index >= Count || index < 0)
                 {
                     throw new ArgumentOutOfRangeException("Index is out of range");
                 }
@@ -471,7 +466,7 @@ namespace ListLibrary
 
         private void UpdateCapacity(int min)
         {
-            if (min < _size)
+            if (min < Count)
             {
                 throw new ArgumentOutOfRangeException("Capacity is too small");
             }
@@ -487,9 +482,9 @@ namespace ListLibrary
 
                 T[] newItems = new T[newCapacity];
 
-                if (_size > 0)
+                if (Count > 0)
                 {
-                    Array.Copy(_items, newItems, _size);
+                    Array.Copy(_items, newItems, Count);
                 }
 
                 _items = newItems;
@@ -506,7 +501,7 @@ namespace ListLibrary
             T x;
             int j;
 
-            for (int i = 1; i < _size; i++)
+            for (int i = 1; i < Count; i++)
             {
                 x = _items[i];
                 j = i;
@@ -529,7 +524,7 @@ namespace ListLibrary
 
         public IMyList<T> CreateInstance(IEnumerable<T> items)
         {
-            IMyList<T> list = new MyList<T>(items);
+            IMyList<T> list = new MyArrayList<T>(items);
             return list;
         }
     }

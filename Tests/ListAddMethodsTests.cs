@@ -7,7 +7,8 @@ using System.Collections.Generic;
 
 namespace Tests
 {
-    [TestFixture(typeof(MyList<int>))]
+    [TestFixture(typeof(MyArrayList<int>))]
+    [TestFixture(typeof(MyLinkedList<int>))]
 
     public class ListAddMethodsTests<T> where T : IMyList<int>, new()
     {

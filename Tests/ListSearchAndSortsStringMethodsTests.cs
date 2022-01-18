@@ -6,7 +6,7 @@ using System;
 
 namespace Tests
 {
-    [TestFixture(typeof(MyList<string>))]
+    [TestFixture(typeof(MyArrayList<string>))]
 
     public class ListSearchAndSortsStringMethodsTests<T> where T : IMyList<string>, new()
     {
@@ -23,7 +23,7 @@ namespace Tests
         {
             try
             {
-                var insetance = _listStrings.CreateInstance(new MyList<string>());
+                var insetance = _listStrings.CreateInstance(new MyArrayList<string>());
                 insetance.IndexOf(null);
             }
             catch (ArgumentNullException ex)
@@ -34,5 +34,22 @@ namespace Tests
 
             Assert.Fail();
         }
+        /*
+        [TestCase(null)]
+        public void CreateListFromOneElement_WhenElementIsNull_ShoulThrowArgumentNullException(string str)
+        {
+            try
+            {
+                _listStrings = (IMyList<string>)Activator.CreateInstance(typeof(T), str);
+            }
+            catch (ArgumentException ex)
+            {
+                Assert.AreEqual("Item", ex.InnerException.Message);
+                Assert.Pass();
+            }
+
+            Assert.Fail();
+        }
+        */
     }
 }

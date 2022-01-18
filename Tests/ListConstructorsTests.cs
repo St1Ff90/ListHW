@@ -2,11 +2,10 @@ using NUnit.Framework;
 using ListLibrary;
 using System;
 
-
-
 namespace Tests
 {
-    [TestFixture(typeof(MyList<int>))]
+    [TestFixture(typeof(MyArrayList<int>))]
+    [TestFixture(typeof(MyLinkedList<int>))]
 
     public class ListConstructorsTests<T> where T : IMyList<int>, new()
     {
@@ -19,35 +18,9 @@ namespace Tests
         }
 
         [Test]
-        public void CreateEmptyIMyList_WhenAny_ShpuldCreateIMyListWithCapacity4()
+        public void CreateEmptyIMyList_WhenAny_ShpuldCreateIMyListWithCountIsZero()
         {
-            Assert.AreEqual(_list.Capacity, 4);
-            foreach (int item in _list)
-            {
-                Assert.AreEqual(item, 0);
-            }
-        }
-
-        [TestCase(4)]
-        [TestCase(1000)]
-        public void CreateEmptyIMyListObjWithCapacity_WhenCapacityOverOrFour_ShouldCreateObjWithPointedCapacoty(int capacity)
-        {
-            _list = (IMyList<int>)Activator.CreateInstance(typeof(T), capacity);
-
-            Assert.AreEqual(_list.Capacity, capacity);
-            foreach (int item in _list)
-            {
-                Assert.AreEqual(item, 0);
-            }
-        }
-
-        [TestCase(0)]
-        [TestCase(3)]
-        public void CreateEmptyIMyListObjWithCapacity_WhenCapacityOverOrZero_ShouldCreateObjWithCapacity4(int capacity)
-        {
-            _list = (IMyList<int>)Activator.CreateInstance(typeof(T), capacity);
-
-            Assert.AreEqual(_list.Capacity, 4);
+            Assert.AreEqual(_list.Count, 0);
             foreach (int item in _list)
             {
                 Assert.AreEqual(item, 0);
@@ -55,36 +28,27 @@ namespace Tests
         }
 
         [Test]
-        public void CreateEmptyIMyListObjWithCapacity_WhenCapacityLessZero_ShouldThrowArgumentException()
+        public void CreateIMyListFromOneElemeent_WhenElementIsNotNull_ShpuldCreateIMyListWithCountIsOne()
         {
-            try
+            _list = (IMyList<int>)Activator.CreateInstance(typeof(T), 1);
+            Assert.AreEqual(_list.Count, 1);
+            foreach (int item in _list)
             {
-                IMyList<int> list = new MyList<int>(-1);
+                Assert.AreEqual(item, 1);
             }
-            catch (ArgumentException ex)
-            {
-                Assert.AreEqual("Capacity should be >= 0", ex.Message);
-                Assert.Pass();
-            }
-
-            Assert.Fail();
         }
 
-        private static readonly object[] CreateIMyListFromOtherIMyList = new[] { new object[] { new MyList<int> { 1, 2, 4, 5, 6, 7, 8, 9 } } };
-        private static readonly object[] CreateIMyListFromOtherIMyList_2 = new[] { new object[] { new MyList<int> { 1 } } };
-        [TestCaseSource("CreateIMyListFromOtherIMyList")]
-        [TestCaseSource("CreateIMyListFromOtherIMyList_2")]
-        public void CreateIMyListFromOtherIMyList_WhenAny_ShouldCreateTheSameList(IMyList<int> expeectedResult)
+        [TestCase(new int[] { 1, 2, 4, 5, 6, 7, 8, 9 })]
+        [TestCase(new int[] { 1 })]
+        public void CreateIMyListFromOtherIMyList_WhenAny_ShouldCreateTheSameList(int[] expeectedResult)
         {
             _list = (IMyList<int>)Activator.CreateInstance(typeof(T), expeectedResult);
 
-            Assert.AreEqual(_list.Capacity, expeectedResult.Capacity);
-               for (int i = 0; i < _list.Count; i++)
+            Assert.AreEqual(_list.Count, expeectedResult.Length);
+            for (int i = 0; i < _list.Count; i++)
             {
                 Assert.AreEqual(_list[i], expeectedResult[i]);
             }
         }
-
-       
     }
 }

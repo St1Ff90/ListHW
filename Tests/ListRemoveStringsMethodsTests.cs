@@ -6,7 +6,7 @@ using System;
 
 namespace Tests
 {
-    [TestFixture(typeof(MyList<string>))]
+    [TestFixture(typeof(MyArrayList<string>))]
 
     public class ListRemoveStringsMethodsTests<T> where T : IMyList<string>, new()
     {
@@ -23,7 +23,7 @@ namespace Tests
         {
             try
             {
-                var insetance = _listStrings.CreateInstance(new MyList<string>());
+                var insetance = _listStrings.CreateInstance(new MyArrayList<string>());
                 insetance.Remove(null);
             }
             catch (ArgumentNullException ex)
@@ -40,8 +40,7 @@ namespace Tests
         {
             try
             {
-                IMyList<string> list = new MyList<string>() { "1" };
-                list.Remove(null);
+                _listStrings.Remove(null);
             }
             catch (ArgumentNullException ex)
             {
