@@ -10,7 +10,9 @@ namespace ListHW
         {
             var one = new MyList<int>() {999, 7};
             var two = new MyList<int>() { 1, 9, 3, 14, };
-            two.AddByIndex(0, one);
+
+
+            two.AddByIndex(2, one);
             two.SortByAsc();
             two.SortByDesc();
 

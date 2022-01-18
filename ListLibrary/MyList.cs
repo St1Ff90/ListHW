@@ -118,41 +118,51 @@ namespace ListLibrary
             _size++;
         }
 
-        public void Add(IMyList<T> items)
+        public void Add(IEnumerable<T> items)
         {
             AddByIndex(_size, items);
         }
 
-        public void AddFront(IMyList<T> items)
+        public void AddFront(IEnumerable<T> items)
         {
             AddByIndex(0, items);
         }
 
-        public void AddByIndex(int pos, IMyList<T> items)
+        public void AddByIndex(int pos, IEnumerable<T> items)
         {
             if (pos < 0 || pos > _size)
             {
                 throw new ArgumentOutOfRangeException("Index is out of range");
             }
 
-            var newSize = _size + items.Count;
+            int itemsCount = 0;
 
-            if (newSize >= _items.Length)
+            foreach (var item in items)
             {
-                UpdateCapacity(newSize);
+                itemsCount++;
             }
 
-            for (int i = _size - 1; i >= pos; i--)
+            if (itemsCount > 0)
             {
-                _items[i + items.Count] = _items[i];
-            }
+                var newSize = _size + itemsCount;
 
-            for (int i = pos; i < items.Count + pos; i++)
-            {
-                _items[i] = items[i - pos];
-            }
+                if (newSize >= _items.Length)
+                {
+                    UpdateCapacity(newSize);
+                }
 
-            _size = newSize;
+                for (int i = _size - 1; i >= pos; i--)
+                {
+                    _items[i + itemsCount] = _items[i];
+                }
+
+                foreach (T item in items)
+                {
+                    _items[pos++] = item;
+                }
+
+                _size = newSize;
+            }
         }
 
         #endregion
@@ -450,7 +460,7 @@ namespace ListLibrary
             {
                 if (index >= _size || index < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Index is out of range" + _size);
+                    throw new ArgumentOutOfRangeException("Index is out of range");
                 }
 
                 _items[index] = value;
@@ -515,6 +525,12 @@ namespace ListLibrary
             T temp = i;
             i = j;
             j = temp;
+        }
+
+        public IMyList<T> CreateInstance(IEnumerable<T> items)
+        {
+            IMyList<T> list = new MyList<T>(items);
+            return list;
         }
     }
 }

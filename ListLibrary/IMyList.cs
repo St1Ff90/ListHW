@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ListLibrary
 {
-    public interface IMyList<T> : IEnumerable<T> where T : IComparable<T>
+    public interface IMyList<T> : IEnumerable<T> 
     {
         void Add(T item); //1
 
@@ -52,10 +52,13 @@ namespace ListLibrary
 
         // Constructors //23
 
-        void Add(IMyList<T> items); // 24
+        void Add(IEnumerable<T> items); // 24
 
-        void AddFront(IMyList<T> items); //25
+        void AddFront(IEnumerable<T> items); //25
 
-        void AddByIndex(int index, IMyList<T> items); //26
+        void AddByIndex(int index, IEnumerable<T> items); //26
+
+        IMyList<T> CreateInstance(IEnumerable<T> items);
+
     }
 }
