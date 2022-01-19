@@ -8,7 +8,7 @@ namespace ListHW
     {
         static void Main(string[] args)
         {
-            var two = new MyArrayList<int>() { 1, 9, 3, 14, };
+            var two = new MyArrayList<string>(null as string);
 
 
             //two.AddByIndex(2, one);

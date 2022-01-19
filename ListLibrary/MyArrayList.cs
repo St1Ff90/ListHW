@@ -8,13 +8,33 @@ namespace ListLibrary
     {
         private const int _defaultCapacity = 4;
         private const double _capacityRise = 1.33;
-
         private T[] _items;
         private int _size;
 
         public int Count => _size;
-
         public int Capacity => _items.Length;
+        public T this[int index]
+        {
+            get
+            {
+                if (index >= Count || index < 0)
+                {
+                    throw new ArgumentOutOfRangeException("Index is out of range");
+                }
+
+                return _items[index];
+            }
+
+            set
+            {
+                if (index >= Count || index < 0)
+                {
+                    throw new ArgumentOutOfRangeException("Index is out of range");
+                }
+
+                _items[index] = value;
+            }
+        }
 
         #region Constructors and Interfaces implementation
 
@@ -43,6 +63,12 @@ namespace ListLibrary
                     Add(item);
                 }
             }
+        }
+
+        public IMyList<T> CreateInstance(IEnumerable<T> items)
+        {
+            IMyList<T> list = new MyArrayList<T>(items);
+            return list;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -427,10 +453,6 @@ namespace ListLibrary
             Sort(1);
         }
 
-        #endregion
-
-        #region Other
-
         public void Reverse()
         {
             for (int i = 0; i < Count / 2; i++)
@@ -439,30 +461,9 @@ namespace ListLibrary
             }
         }
 
-        public T this[int index]
-        {
-            get
-            {
-                if (index >= Count || index < 0)
-                {
-                    throw new ArgumentOutOfRangeException("Index is out of range");
-                }
-
-                return _items[index];
-            }
-
-            set
-            {
-                if (index >= Count || index < 0)
-                {
-                    throw new ArgumentOutOfRangeException("Index is out of range");
-                }
-
-                _items[index] = value;
-            }
-        }
-
         #endregion
+
+        #region Private methods
 
         private void UpdateCapacity(int min)
         {
@@ -522,10 +523,7 @@ namespace ListLibrary
             j = temp;
         }
 
-        public IMyList<T> CreateInstance(IEnumerable<T> items)
-        {
-            IMyList<T> list = new MyArrayList<T>(items);
-            return list;
-        }
+        #endregion
+
     }
 }

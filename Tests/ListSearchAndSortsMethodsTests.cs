@@ -7,7 +7,7 @@ using System;
 namespace Tests
 {
     [TestFixture(typeof(MyArrayList<int>))]
-
+    [TestFixture(typeof(MyLinkedList<int>))]
     public class ListSearchAndSortsMethodsTests<T> where T : IMyList<int>, new()
     {
         IMyList<int> _list;

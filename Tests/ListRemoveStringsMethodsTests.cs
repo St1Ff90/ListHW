@@ -7,7 +7,7 @@ using System;
 namespace Tests
 {
     [TestFixture(typeof(MyArrayList<string>))]
-
+    [TestFixture(typeof(MyLinkedList<string>))]
     public class ListRemoveStringsMethodsTests<T> where T : IMyList<string>, new()
     {
         IMyList<string> _listStrings;

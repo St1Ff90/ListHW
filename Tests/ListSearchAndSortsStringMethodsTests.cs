@@ -2,12 +2,10 @@ using NUnit.Framework;
 using ListLibrary;
 using System;
 
-
-
 namespace Tests
 {
     [TestFixture(typeof(MyArrayList<string>))]
-
+    [TestFixture(typeof(MyLinkedList<string>))]
     public class ListSearchAndSortsStringMethodsTests<T> where T : IMyList<string>, new()
     {
         IMyList<string> _listStrings;
@@ -34,22 +32,5 @@ namespace Tests
 
             Assert.Fail();
         }
-        /*
-        [TestCase(null)]
-        public void CreateListFromOneElement_WhenElementIsNull_ShoulThrowArgumentNullException(string str)
-        {
-            try
-            {
-                _listStrings = (IMyList<string>)Activator.CreateInstance(typeof(T), str);
-            }
-            catch (ArgumentException ex)
-            {
-                Assert.AreEqual("Item", ex.InnerException.Message);
-                Assert.Pass();
-            }
-
-            Assert.Fail();
-        }
-        */
     }
 }
