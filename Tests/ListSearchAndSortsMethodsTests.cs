@@ -2,8 +2,6 @@ using NUnit.Framework;
 using ListLibrary;
 using System;
 
-
-
 namespace Tests
 {
     [TestFixture(typeof(MyArrayList<int>))]
@@ -30,16 +28,16 @@ namespace Tests
 
         [TestCase(-1)]
         [TestCase(1)]
-        public void SetItemByIndex_WhenIndexIsZeroOrMoreThenSize_ShouldThrowArgumentOutOfRangeException(int index)
+        public void SetItemByIndex_WhenIndexIsZeroOrMoreThenSize_ShouldThrowArgumentException(int index)
         {
             try
             {
                 var instance = _list.CreateInstance(new int[] { 1 });
                 _list[index] = 2;
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Index is out of range", ex.ParamName);
+                Assert.AreEqual("Index should be less than count and more than zero", ex.Message);
                 Assert.Pass();
             }
 
@@ -57,16 +55,16 @@ namespace Tests
 
         [TestCase(-1)]
         [TestCase(1)]
-        public void GetItemByIndex_WhenIndexIsZeroOrMoreThenSize_ShouldThrowArgumentOutOfRangeException(int index)
+        public void GetItemByIndex_WhenIndexIsZeroOrMoreThenSize_ShouldThrowArgumentException(int index)
         {
             try
             {
                 var instance = _list.CreateInstance(new int[] { 1 });
                 int item = _list[index];
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Index is out of range", ex.ParamName);
+                Assert.AreEqual("Index should be less than count and more than zero", ex.Message);
                 Assert.Pass();
             }
 
@@ -92,15 +90,15 @@ namespace Tests
         }
 
         [Test]
-        public void MaxItem_WhenSizeIsZero_ShouldThrowArgumentOutOfRangeException()
+        public void MaxItem_WhenSizeIsZero_ShouldThrowArgumentException()
         {
             try
             {
                 _list.Max();
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 
@@ -117,15 +115,15 @@ namespace Tests
         }
 
         [Test]
-        public void MinItem_WhenSizeIsZero_ShouldThrowArgumentOutOfRangeException()
+        public void MinItem_WhenSizeIsZero_ShouldThrowArgumentException()
         {
             try
             {
                 _list.Min();
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 
@@ -142,15 +140,15 @@ namespace Tests
         }
 
         [Test]
-        public void IndexOfMaxItem_WhenSizeIsZero_ShouldThrowArgumentOutOfRangeException()
+        public void IndexOfMaxItem_WhenSizeIsZero_ShouldThrowArgumentException()
         {
             try
             {
                 _list.IndexOfMax();
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 
@@ -167,15 +165,15 @@ namespace Tests
         }
 
         [Test]
-        public void IndexOfMinItem_WhenSizeIsZero_ShouldThrowArgumentOutOfRangeException()
+        public void IndexOfMinItem_WhenSizeIsZero_ShouldThrowArgumentException()
         {
             try
             {
                 _list.IndexOfMin();
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 

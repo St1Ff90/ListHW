@@ -2,8 +2,6 @@ using NUnit.Framework;
 using ListLibrary;
 using System;
 
-
-
 namespace Tests
 {
     [TestFixture(typeof(MyArrayList<int>))]
@@ -29,15 +27,15 @@ namespace Tests
         }
 
         [Test]
-        public void RemoveBack_WhenSizeIsZero_ShouldThrowArgumentOutOfRangeException()
+        public void RemoveBack_WhenSizeIsZero_ShouldThrowArgumentException()
         {
             try
             {
                 _list.RemoveBack();
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 
@@ -55,15 +53,15 @@ namespace Tests
         }
 
         [Test]
-        public void RemoveFront_WhenSizeIsZero_ShouldThrowArgumentOutOfRangeException()
+        public void RemoveFront_WhenSizeIsZero_ShouldThrowArgumentException()
         {
             try
             {
                 _list.RemoveFront();
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 
@@ -82,15 +80,15 @@ namespace Tests
         }
 
         [Test]
-        public void RemoveAt_WhenSizeIsZero_ShouldThrowArgumentOutOfRangeException()
+        public void RemoveAt_WhenSizeIsZero_ShouldThrowArgumentException()
         {
             try
             {
                 _list.RemoveAt(0);
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 
@@ -126,16 +124,16 @@ namespace Tests
         }
 
         [Test]
-        public void RemoveManyBack_WhenSizeIsNotBiggerThanQuantity_ShouldThrowArgumentOutOfRangeException()
+        public void RemoveManyBack_WhenSizeIsNotBiggerThanQuantity_ShouldThrowArgumentException()
         {
             try
             {
                 var instance = _list.CreateInstance(new int[] { 1 });
                 _list.RemoveBack(2);
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 
@@ -153,16 +151,16 @@ namespace Tests
         }
 
         [Test]
-        public void RemoveManyFront_WhenSizeIsNotBiggerThanQuantity_ShouldThrowArgumentOutOfRangeException()
+        public void RemoveManyFront_WhenSizeIsNotBiggerThanQuantity_ShouldThrowArgumentException()
         {
             try
             {
                 var instance = _list.CreateInstance(new int[] { 1 });
                 _list.RemoveFront(2);
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 
@@ -180,15 +178,15 @@ namespace Tests
         }
 
         [Test]
-        public void RemoveManyAt_WhenSizeIsZero_ShouldThrowArgumentOutOfRangeException()
+        public void RemoveManyAt_WhenSizeIsZero_ShouldThrowArgumentException()
         {
             try
             {
                 _list.RemoveAt(0, 1);
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 
@@ -224,15 +222,15 @@ namespace Tests
         }
 
         [Test]
-        public void Remove_WhenSizeIsZero_ShouldThrowArgumentOutOfRangeException()
+        public void Remove_WhenSizeIsZero_ShouldThrowArgumentException()
         {
             try
             {
                 _list.Remove(0);
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 
@@ -250,15 +248,15 @@ namespace Tests
         }
 
         [Test]
-        public void RemoveAll_WhenSizeIsZero_ShouldThrowArgumentOutOfRangeException()
+        public void RemoveAll_WhenSizeIsZero_ShouldThrowArgumentException()
         {
             try
             {
                 _list.RemoveAll(0);
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Size", ex.ParamName);
+                Assert.AreEqual("Size is 0", ex.Message);
                 Assert.Pass();
             }
 

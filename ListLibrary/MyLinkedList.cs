@@ -18,7 +18,7 @@ namespace ListLibrary
             {
                 if (index >= Count || index < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Index is out of range");
+                    throw new ArgumentException("Index should be less than count and more than zero");
                 }
 
                 return GetNodeByIndex(index).Value;
@@ -27,7 +27,7 @@ namespace ListLibrary
             {
                 if (index >= Count || index < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Index is out of range");
+                    throw new ArgumentException("Index should be less than count and more than zero");
                 }
 
                 GetNodeByIndex(index).Value = value;
@@ -42,6 +42,11 @@ namespace ListLibrary
 
         public MyLinkedList(T element)
         {
+            if (element == null)
+            {
+                throw new ArgumentException("Element can't be null");
+            }
+
             if (element != null)
             {
                 Add(element);
@@ -50,6 +55,11 @@ namespace ListLibrary
 
         public MyLinkedList(IEnumerable<T> elements)
         {
+            if (elements == null)
+            {
+                throw new ArgumentException("Elements can't be null");
+            }
+
             foreach (var item in elements)
             {
                 Add(item);
@@ -118,7 +128,7 @@ namespace ListLibrary
         {
             if (pos < 0 || pos > Count)
             {
-                throw new ArgumentOutOfRangeException("Index is out of range");
+                throw new ArgumentException("Position should be less than count and more than zero");
             }
 
             if (_root != null)
@@ -162,7 +172,7 @@ namespace ListLibrary
         {
             if (pos < 0 || pos > Count)
             {
-                throw new ArgumentOutOfRangeException("Index is out of range");
+                throw new ArgumentException("Position should be less than count and more than zero");
             }
 
             int itemsCount = 0;
@@ -205,12 +215,12 @@ namespace ListLibrary
 
             if (element == null)
             {
-                throw new ArgumentNullException("Item can't be null");
+                throw new ArgumentException("Item can't be null");
             }
 
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             for (int i = 0; i < Count; i++)
@@ -231,12 +241,12 @@ namespace ListLibrary
         {
             if (element == null)
             {
-                throw new ArgumentNullException("Item can't be null");
+                throw new ArgumentException("Item can't be null");
             }
 
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             int result = 0;
@@ -258,7 +268,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             if (index < 0 || index >= Count)
@@ -274,7 +284,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             if (Count < quantity + index || index < 0)
@@ -290,7 +300,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             _size--;
@@ -301,7 +311,7 @@ namespace ListLibrary
         {
             if (Count < quantity)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             GetNodeByIndex(Count - quantity - 1).Next = null;
@@ -312,7 +322,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             _root = GetNodeByIndex(1);
@@ -323,7 +333,7 @@ namespace ListLibrary
         {
             if (Count < quantity)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             _root = GetNodeByIndex(quantity);
@@ -338,7 +348,7 @@ namespace ListLibrary
         {
             if (item == null)
             {
-                throw new ArgumentNullException("Item");
+                throw new ArgumentException("Item can't be null");
             }
 
             int result = -1;
@@ -359,7 +369,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             int result = 0;
@@ -379,7 +389,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             int result = 0;
@@ -399,7 +409,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             T result = GetNodeByIndex(0).Value;
@@ -419,7 +429,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             T result = GetNodeByIndex(0).Value;

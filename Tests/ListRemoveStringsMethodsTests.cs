@@ -2,8 +2,6 @@ using NUnit.Framework;
 using ListLibrary;
 using System;
 
-
-
 namespace Tests
 {
     [TestFixture(typeof(MyArrayList<string>))]
@@ -26,9 +24,9 @@ namespace Tests
                 var insetance = _listStrings.CreateInstance(new MyArrayList<string>());
                 insetance.Remove(null);
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Item can't be null", ex.ParamName);
+                Assert.AreEqual("Item can't be null", ex.Message);
                 Assert.Pass();
             }
 
@@ -42,9 +40,9 @@ namespace Tests
             {
                 _listStrings.Remove(null);
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Item can't be null", ex.ParamName);
+                Assert.AreEqual("Item can't be null", ex.Message);
                 Assert.Pass();
             }
 

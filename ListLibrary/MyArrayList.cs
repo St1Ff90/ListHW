@@ -19,7 +19,7 @@ namespace ListLibrary
             {
                 if (index >= Count || index < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Index is out of range");
+                    throw new ArgumentException("Index should be less than count and more than zero");
                 }
 
                 return _items[index];
@@ -29,7 +29,7 @@ namespace ListLibrary
             {
                 if (index >= Count || index < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Index is out of range");
+                    throw new ArgumentException("Index should be less than count and more than zero");
                 }
 
                 _items[index] = value;
@@ -45,30 +45,33 @@ namespace ListLibrary
 
         public MyArrayList(T element)
         {
-            if (element != null)
+            if (element == null)
             {
-                _items = new T[_defaultCapacity];
-                Add(element);
+                throw new ArgumentException("Element can't be null");
             }
+
+            _items = new T[_defaultCapacity];
+            Add(element);
         }
 
         public MyArrayList(IEnumerable<T> collection)
         {
-            if (collection != null)
+            if (collection == null)
             {
-                _items = new T[_defaultCapacity];
+                throw new ArgumentException("Elements can't be null");
+            }
 
-                foreach (T item in collection)
-                {
-                    Add(item);
-                }
+            _items = new T[_defaultCapacity];
+
+            foreach (T item in collection)
+            {
+                Add(item);
             }
         }
 
         public IMyList<T> CreateInstance(IEnumerable<T> items)
         {
-            IMyList<T> list = new MyArrayList<T>(items);
-            return list;
+            return new MyArrayList<T>(items);
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -115,7 +118,7 @@ namespace ListLibrary
         {
             if (pos < 0 || pos > Count)
             {
-                throw new ArgumentOutOfRangeException("Index is out of range");
+                throw new ArgumentException("Position should be less than count and more than zero");
             }
 
             if (Count == _items.Length)
@@ -153,7 +156,7 @@ namespace ListLibrary
         {
             if (pos < 0 || pos > Count)
             {
-                throw new ArgumentOutOfRangeException("Index is out of range");
+                throw new ArgumentException("Position should be less than count and more than zero");
             }
 
             int itemsCount = 0;
@@ -194,7 +197,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             _size--;
@@ -204,7 +207,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             _size--;
@@ -219,7 +222,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             if (index < 0 || index >= Count)
@@ -242,7 +245,7 @@ namespace ListLibrary
         {
             if (Count < quantity)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             _size -= quantity;
@@ -252,7 +255,7 @@ namespace ListLibrary
         {
             if (Count < quantity)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             _size -= quantity;
@@ -267,7 +270,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             if (Count < quantity + index || index < 0)
@@ -292,12 +295,12 @@ namespace ListLibrary
 
             if (element == null)
             {
-                throw new ArgumentNullException("Item can't be null");
+                throw new ArgumentException("Item can't be null");
             }
 
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             for (int i = 0; i < Count; i++)
@@ -316,12 +319,12 @@ namespace ListLibrary
         {
             if (element == null)
             {
-                throw new ArgumentNullException("Item can't be null");
+                throw new ArgumentException("Item can't be null");
             }
 
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             int result = 0;
@@ -346,7 +349,7 @@ namespace ListLibrary
         {
             if (item == null)
             {
-                throw new ArgumentNullException("Item");
+                throw new ArgumentException("Item can't be null");
             }
 
             int result = -1;
@@ -367,7 +370,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             T result = _items[0];
@@ -387,7 +390,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             T result = _items[0];
@@ -407,7 +410,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             int result = 0;
@@ -427,7 +430,7 @@ namespace ListLibrary
         {
             if (Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Size");
+                throw new ArgumentException("Size is 0");
             }
 
             int result = 0;
@@ -469,7 +472,7 @@ namespace ListLibrary
         {
             if (min < Count)
             {
-                throw new ArgumentOutOfRangeException("Capacity is too small");
+                throw new ArgumentException("Capacity shouldn't be resized!");
             }
 
             if (_items.Length < min)

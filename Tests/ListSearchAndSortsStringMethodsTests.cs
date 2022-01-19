@@ -24,9 +24,9 @@ namespace Tests
                 var insetance = _listStrings.CreateInstance(new MyArrayList<string>());
                 insetance.IndexOf(null);
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Item", ex.ParamName);
+                Assert.AreEqual("Item can't be null", ex.Message);
                 Assert.Pass();
             }
 

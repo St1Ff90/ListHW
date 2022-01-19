@@ -3,8 +3,6 @@ using ListLibrary;
 using System;
 using System.Collections.Generic;
 
-
-
 namespace Tests
 {
     [TestFixture(typeof(MyArrayList<int>))]
@@ -61,9 +59,9 @@ namespace Tests
             {
                 _list.AddByIndex(pos, 0);
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Index is out of range", ex.ParamName);
+                Assert.AreEqual("Position should be less than count and more than zero", ex.Message);
                 Assert.Pass();
             }
 
@@ -120,9 +118,9 @@ namespace Tests
             {
                 _list.AddByIndex(pos, new List<int>());
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentException ex)
             {
-                Assert.AreEqual("Index is out of range", ex.ParamName);
+                Assert.AreEqual("Position should be less than count and more than zero", ex.Message);
                 Assert.Pass();
             }
 
