@@ -33,8 +33,8 @@ namespace BinaryTreeTests
             {
                 Assert.AreEqual(ex.Message, "Value  to remove can't be null!");
                 Assert.Pass();
-
             }
+
             Assert.Fail();
         }
 
@@ -46,14 +46,14 @@ namespace BinaryTreeTests
                 BinaryTree<int> source = new BinaryTree<int>() { 1, 2, 3 };
 
                 source.Add(3);
-
             }
             catch (ArgumentException ex)
             {
                 Assert.AreEqual(ex.Message, "Binary tree can't hold two same items!");
-                Assert.Pass();
 
+                Assert.Pass();
             }
+
             Assert.Fail();
         }
 
@@ -86,6 +86,7 @@ namespace BinaryTreeTests
                 Assert.Pass();
 
             }
+
             Assert.Fail();
         }
     }

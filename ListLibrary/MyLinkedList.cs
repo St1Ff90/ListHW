@@ -7,7 +7,7 @@ namespace ListLibrary
 {
     public class MyLinkedList<T> : IMyList<T> where T : IComparable<T>
     {
-        private Node<T> _root;
+        private MyLinkedListNode<T> _root;
         private int _size;
 
         public int Count => _size;
@@ -73,7 +73,7 @@ namespace ListLibrary
 
         public IEnumerator<T> GetEnumerator()
         {
-            Node<T> temp = _root;
+            MyLinkedListNode<T> temp = _root;
             for (int i = 0; i < Count; i++)
             {
                 yield return temp.Value;
@@ -94,11 +94,11 @@ namespace ListLibrary
         {
             if (_root != null)
             {
-                GetNodeByIndex(Count - 1).Next = new Node<T> { Value = element };
+                GetNodeByIndex(Count - 1).Next = new MyLinkedListNode<T> { Value = element };
             }
             else
             {
-                _root = new Node<T> { Value = element };
+                _root = new MyLinkedListNode<T> { Value = element };
             }
 
             ++_size;
@@ -108,7 +108,7 @@ namespace ListLibrary
         {
             if (_root != null)
             {
-                Node<T> newRoot = new Node<T>
+                MyLinkedListNode<T> newRoot = new MyLinkedListNode<T>
                 {
                     Value = item,
                     Next = _root
@@ -118,7 +118,7 @@ namespace ListLibrary
             }
             else
             {
-                _root = new Node<T> { Value = item };
+                _root = new MyLinkedListNode<T> { Value = item };
             }
 
             ++_size;
@@ -133,11 +133,11 @@ namespace ListLibrary
 
             if (_root != null)
             {
-                GetNodeByIndex(pos - 1).Next = new Node<T> { Value = item, Next = GetNodeByIndex(pos) };
+                GetNodeByIndex(pos - 1).Next = new MyLinkedListNode<T> { Value = item, Next = GetNodeByIndex(pos) };
             }
             else
             {
-                _root = new Node<T> { Value = item };
+                _root = new MyLinkedListNode<T> { Value = item };
             }
 
             ++_size;
@@ -151,11 +151,11 @@ namespace ListLibrary
             {
                 if (_root != null)
                 {
-                    GetNodeByIndex(Count - 1).Next = new Node<T> { Value = item };
+                    GetNodeByIndex(Count - 1).Next = new MyLinkedListNode<T> { Value = item };
                 }
                 else
                 {
-                    _root = new Node<T> { Value = item };
+                    _root = new MyLinkedListNode<T> { Value = item };
                 }
 
                 itemIndex++;
@@ -184,18 +184,18 @@ namespace ListLibrary
 
             if (itemsCount != 0)
             {
-                Node<T> change = GetNodeByIndex(pos);
+                MyLinkedListNode<T> change = GetNodeByIndex(pos);
 
                 foreach (var item in items)
                 {
                     if (_root != null && pos > 0)
                     {
-                        GetNodeByIndex(pos - 1).Next = new Node<T> { Value = item };
+                        GetNodeByIndex(pos - 1).Next = new MyLinkedListNode<T> { Value = item };
 
                     }
                     else
                     {
-                        _root = new Node<T> { Value = item };
+                        _root = new MyLinkedListNode<T> { Value = item };
                     }
                     pos++;
                     ++_size;
@@ -493,13 +493,13 @@ namespace ListLibrary
             GetNodeByIndex(j).Value = temp;
         }
 
-        private Node<T> GetNodeByIndex(int index)
+        private MyLinkedListNode<T> GetNodeByIndex(int index)
         {
-            Node<T> temp = _root;
+            MyLinkedListNode<T> temp = _root;
 
             if (index < 0)
             {
-                temp = new Node<T>();
+                temp = new MyLinkedListNode<T>();
             }
 
             for (int i = 0; i < index; i++)

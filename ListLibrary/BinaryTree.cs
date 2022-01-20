@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using System.Text;
 
 namespace ListLibrary
 {
     public class BinaryTree<T> : IEnumerable<T> where T : IComparable<T>
     {
-        private Node<T> _root;
+        private MyTreeNode<T> _root;
         private int _size;
 
         public int Count => _size;
@@ -30,8 +31,8 @@ namespace ListLibrary
                 throw new ArgumentException("Value  to remove can't be null!");
             }
 
-            Node<T> before = null;
-            Node<T> after = _root;
+            MyTreeNode<T> before = null;
+            MyTreeNode<T> after = _root;
 
             while (after != null)
             {
@@ -52,7 +53,7 @@ namespace ListLibrary
                 }
             }
 
-            Node<T> newNode = new Node<T> { Value = value };
+            MyTreeNode<T> newNode = new MyTreeNode<T> { Value = value };
 
             if (_root == null)
             {
@@ -72,17 +73,19 @@ namespace ListLibrary
 
             _size++;
         }
+
         public void Remove(T value)
         {
-             if(value == null)
+            if (value == null)
             {
                 throw new ArgumentException("Value  to remove can't be null!");
             }
+
             _root = Remove(_root, value);
             _size--;
         }
 
-        private Node<T> Remove(Node<T> parent, T element)
+        private MyTreeNode<T> Remove(MyTreeNode<T> parent, T element)
         {
             if (parent == null)
             {
@@ -94,7 +97,9 @@ namespace ListLibrary
                 parent.Left = Remove(parent.Left, element);
             }
             else if (element.CompareTo(parent.Value) == 1)
+            {
                 parent.Right = Remove(parent.Right, element);
+            }
             else
             {
                 if (parent.Left == null)
@@ -106,23 +111,23 @@ namespace ListLibrary
                     return parent.Left;
                 }
 
-                Node<T> temp = parent.Right;
-                T minv = temp.Value;
+                MyTreeNode<T> temp = parent.Right;
+                T minimumValue = temp.Value;
 
                 while (temp.Left != null)
                 {
-                    minv = temp.Left.Value;
+                    minimumValue = temp.Left.Value;
                     temp = temp.Left;
                 }
 
-                parent.Value = minv;
+                parent.Value = minimumValue;
                 parent.Right = Remove(parent.Right, parent.Value);
             }
 
             return parent;
         }
 
-        private int GetHeight(Node<T> parent)
+        private int GetHeight(MyTreeNode<T> parent)
         {
             int result = 0;
 
@@ -133,18 +138,24 @@ namespace ListLibrary
             return result;
         }
 
-        private IEnumerable<T> Enumerate(Node<T> root)
+        private IEnumerable<T> Enumerate(MyTreeNode<T> root)
         {
             if (root == null)
+            {
                 yield break;
+            }
 
             yield return root.Value;
 
             foreach (var value in Enumerate(root.Left))
+            {
                 yield return value;
+            }
 
             foreach (var value in Enumerate(root.Right))
+            {
                 yield return value;
+            }
         }
     }
 }
