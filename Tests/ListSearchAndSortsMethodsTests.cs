@@ -21,7 +21,9 @@ namespace Tests
         public void SetItemByIndex_WhenIndexMoreZeroAndLessThenSize_ShouldChengeItemByIndex(int[] sourceArray, int index, int element, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance[index] = element;
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -33,6 +35,7 @@ namespace Tests
             try
             {
                 var instance = _list.CreateInstance(new int[] { 1 });
+
                 _list[index] = 2;
             }
             catch (ArgumentException ex)
@@ -49,7 +52,9 @@ namespace Tests
         public void GetItemByIndex_WhenIndexMoreZeroAndLessThenSize_ShouldReturnItemByIndex(int[] sourceArray, int index, int expectedResult)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             int actualResult = instance[index];
+
             Assert.AreEqual(actualResult, expectedResult);
         }
 
@@ -60,6 +65,7 @@ namespace Tests
             try
             {
                 var instance = _list.CreateInstance(new int[] { 1 });
+
                 int item = _list[index];
             }
             catch (ArgumentException ex)
@@ -76,7 +82,9 @@ namespace Tests
         public void IndexOfItem_WhenItemIsNotNullAndItemExist_ShouldReturnIndex(int[] sourceArray, int element, int expectedResult)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             int actualResult = instance.IndexOf(element);
+
             Assert.AreEqual(actualResult, expectedResult);
         }
 
@@ -110,7 +118,9 @@ namespace Tests
         public void MinItem_WhenSizeIsNotZero_ShouldReturnMaxItemValue(int[] sourceArray, int expectedResult)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             int actualResult = instance.Min();
+
             Assert.AreEqual(actualResult, expectedResult);
         }
 
@@ -135,7 +145,9 @@ namespace Tests
         public void IndexOfMaxItem_WhenSizeIsNotZero_ShouldReturnMaxItemValue(int[] sourceArray, int expectedResult)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             int actualResult = instance.IndexOfMax();
+
             Assert.AreEqual(actualResult, expectedResult);
         }
 
@@ -160,7 +172,9 @@ namespace Tests
         public void IndexOfMinItem_WhenSizeIsNotZero_ShouldReturnMaxItemValue(int[] sourceArray, int expectedResult)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             int actualResult = instance.IndexOfMin();
+
             Assert.AreEqual(actualResult, expectedResult);
         }
 
@@ -185,7 +199,9 @@ namespace Tests
         public void SortByDesc_WhenAny_ShouldSortByDesc(int[] sourceArray, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.SortByDesc();
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -195,7 +211,9 @@ namespace Tests
         public void SortByAsc_WhenAny_ShouldSortByDesc(int[] sourceArray, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.SortByAsc();
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -205,7 +223,9 @@ namespace Tests
         public void Reverse_WhenAny_ShouldReverseItems(int[] sourceArray, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.Reverse();
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }

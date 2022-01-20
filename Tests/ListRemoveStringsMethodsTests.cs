@@ -22,6 +22,7 @@ namespace Tests
             try
             {
                 var insetance = _listStrings.CreateInstance(new MyArrayList<string>());
+
                 insetance.Remove(null);
             }
             catch (ArgumentException ex)

@@ -23,7 +23,9 @@ namespace Tests
         public void Add_WhenAny_ShouldAddItemToEnd(int[] sourceArray, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.Add(3);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -33,10 +35,16 @@ namespace Tests
         public void AddFront_WhenAny_ShouldAddFront(int[] sourceArray, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.AddFront(3);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
+
+
+
+
 
         private static readonly object[] AddByIndex_1 = new[] { new object[] { new int[] { 1, 2 }, 1, new int[] { 1, 3, 2 } } };
         private static readonly object[] AddByIndex_2 = new[] { new object[] { new int[] { 1, 2 }, 2, new int[] { 1, 2, 3 } } };
@@ -46,7 +54,9 @@ namespace Tests
         public void AddByIndex_WhenIndexIsNotLessZeroOrIndexMoreThenSize_WhenAny_ShouldAddFront(int[] sourceArray, int index, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.AddByIndex(index, 3);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -75,7 +85,9 @@ namespace Tests
         public void AddMany_WhenAny_ShouldAddItemsToEnd(int[] sourceArray, IEnumerable<int> additionalList, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.Add(additionalList);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -87,7 +99,9 @@ namespace Tests
         public void AddManyFront_WhenAny_ShouldAddItemsToFront(int[] sourceArray, IEnumerable<int> additionalList, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.AddFront(additionalList);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -105,7 +119,9 @@ namespace Tests
         public void AddManyFromIndex_WhenAny_ShouldAddItemsToFront(int[] sourceArray, int index, IEnumerable<int> additionalList, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.AddByIndex(index, additionalList);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }

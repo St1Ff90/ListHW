@@ -30,6 +30,7 @@ namespace Tests
         public void CreateIMyListFromOneElemeent_WhenElementIsNotNull_ShpuldCreateIMyListWithCountIsOne()
         {
             _list = (IMyList<int>)Activator.CreateInstance(typeof(T), 1);
+
             Assert.AreEqual(_list.Count, 1);
             foreach (int item in _list)
             {

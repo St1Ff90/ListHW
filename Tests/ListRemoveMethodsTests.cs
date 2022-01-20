@@ -21,7 +21,9 @@ namespace Tests
         public void RemoveBack_WhenSizeIsBiggerZero_ShouldRemoveLastItem(int[] sourceArray, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.RemoveBack();
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -47,7 +49,9 @@ namespace Tests
         public void RemoveFront_WhenSizeIsBiggerZero_ShouldRemoveFirsttItem(int[] sourceArray, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.RemoveFront();
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -74,7 +78,9 @@ namespace Tests
         public void RemoveAt_WhenSizeAndIndexIsBiggerZeroAndIndexIsLessSize_ShouldRemoveItemByIndex(int[] sourceArray, int index, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.RemoveAt(index);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -102,6 +108,7 @@ namespace Tests
             try
             {
                 var instance = _list.CreateInstance(new int[] { 0 });
+
                 instance.RemoveAt(index);
             }
             catch (ArgumentException ex)
@@ -118,7 +125,9 @@ namespace Tests
         public void RemoveManyBack_WhenSizeIsBiggerThanQuantity_ShouldRemoveLastPointedItems(int[] sourceArray, int quantity, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.RemoveBack(quantity);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -129,6 +138,7 @@ namespace Tests
             try
             {
                 var instance = _list.CreateInstance(new int[] { 1 });
+
                 _list.RemoveBack(2);
             }
             catch (ArgumentException ex)
@@ -145,7 +155,9 @@ namespace Tests
         public void RemoveManyFront_WhenSizeIsBiggerThanQuantity_ShouldRemoveFromStartPointedItems(int[] sourceArray, int quantity, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.RemoveFront(quantity);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -156,6 +168,7 @@ namespace Tests
             try
             {
                 var instance = _list.CreateInstance(new int[] { 1 });
+
                 _list.RemoveFront(2);
             }
             catch (ArgumentException ex)
@@ -172,7 +185,9 @@ namespace Tests
         public void RemoveManyAt_WhenSizeIsNotBiggerThanQuantityAndIndexIsLessSize_ShouldRemoveQuantityOfItemsStartFromIndex(int[] sourceArray, int index, int quantity, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.RemoveAt(index, quantity);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -200,6 +215,7 @@ namespace Tests
             try
             {
                 var instance = _list.CreateInstance(new int[] { 1 });
+
                 instance.RemoveAt(index, 1);
             }
             catch (ArgumentException ex)
@@ -216,7 +232,9 @@ namespace Tests
         public void Remove_WhenElementIsNotNullAndSizeIsNotZero_ShouldRemovePointedElement(int[] sourceArray, int elemeent, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.Remove(elemeent);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
@@ -242,7 +260,9 @@ namespace Tests
         public void RemoveAll_WhenElementIsNotNullAndSizeIsNotZero_ShouldRemovePointedElement(int[] sourceArray, int elemeent, int[] expectedArray)
         {
             var instance = _list.CreateInstance(sourceArray);
+
             instance.RemoveAll(elemeent);
+
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
         }
