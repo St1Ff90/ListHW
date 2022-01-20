@@ -8,25 +8,7 @@ namespace ListHW
     {
         static void Main(string[] args)
         {
-            var two = new MyArrayList<string>(null as string);
-
-
-            //two.AddByIndex(2, one);
-            two.SortByAsc();
-            two.SortByDesc();
-
-            /*
-            myList.AddByIndex(0, myLis2t);
-
-
-            myList.AddFront(99);
-            myList.AddByIndex(0, 999);
-
-            foreach (var item in myList)
-            {
-                Console.WriteLine(item);
-            }
-            */
+            BinaryTree<int> dsds = new BinaryTree<int>() { 5, 3, 15, 6, 7, 35, 13};
         }
     }
 }

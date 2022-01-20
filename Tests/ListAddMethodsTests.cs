@@ -42,10 +42,6 @@ namespace Tests
             CollectionAssert.AreEqual(expectedArray, instance);
         }
 
-
-
-
-
         private static readonly object[] AddByIndex_1 = new[] { new object[] { new int[] { 1, 2 }, 1, new int[] { 1, 3, 2 } } };
         private static readonly object[] AddByIndex_2 = new[] { new object[] { new int[] { 1, 2 }, 2, new int[] { 1, 2, 3 } } };
         [TestCaseSource("AddByIndex_1")]
