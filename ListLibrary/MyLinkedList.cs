@@ -453,22 +453,9 @@ namespace ListLibrary
             }
         }
 
-        public void SortByAsc()
+        public void Sort(bool byAsc)
         {
-            Sort(1);
-        }
-
-        public void SortByDesc()
-        {
-            Sort(-1);
-        }
-
-        #endregion
-
-        #region Private methods
-
-        private void Sort(int type)
-        {
+            int type = byAsc ? 1 : -1;
             T x;
             int j;
 
@@ -485,6 +472,10 @@ namespace ListLibrary
                 GetNodeByIndex(j).Value = x;
             }
         }
+
+        #endregion
+
+        #region Private methods
 
         private void Swap(int i, int j)
         {

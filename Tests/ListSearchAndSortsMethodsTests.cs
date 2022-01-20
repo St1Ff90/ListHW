@@ -200,7 +200,7 @@ namespace Tests
         {
             var instance = _list.CreateInstance(sourceArray);
 
-            instance.SortByDesc();
+            instance.Sort(false);
 
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
@@ -212,7 +212,7 @@ namespace Tests
         {
             var instance = _list.CreateInstance(sourceArray);
 
-            instance.SortByAsc();
+            instance.Sort(true);
 
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);

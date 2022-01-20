@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ListLibrary
 {
@@ -61,11 +62,14 @@ namespace ListLibrary
                 throw new ArgumentException("Elements can't be null");
             }
 
+            T[] tempArr = collection.ToArray();
             _items = new T[_defaultCapacity];
+            UpdateCapacity(tempArr.Length);
+            _size += tempArr.Length;
 
-            foreach (T item in collection)
+            for (int i = 0; i < tempArr.Length; i++)
             {
-                Add(item);
+                _items[i] = tempArr[i];
             }
         }
 
@@ -126,19 +130,15 @@ namespace ListLibrary
                 UpdateCapacity(Count + 1);
             }
 
-            for (int i = Count; i >= 0; i--)
+            if (Count > 0 && pos < Count)
             {
-                if (i == pos)
-                {
-                    _items[i] = item;
-                    break;
-                }
-                else
+                for (int i = Count; i > pos; i--)
                 {
                     _items[i] = _items[i - 1];
                 }
             }
 
+            _items[pos] = item;
             _size++;
         }
 
@@ -159,12 +159,7 @@ namespace ListLibrary
                 throw new ArgumentException("Position should be less than count and more than zero");
             }
 
-            int itemsCount = 0;
-
-            foreach (var item in items)
-            {
-                itemsCount++;
-            }
+            int itemsCount = items.ToArray().Count();
 
             if (itemsCount > 0)
             {
@@ -195,36 +190,16 @@ namespace ListLibrary
 
         public void RemoveBack()
         {
-            if (Count == 0)
-            {
-                throw new ArgumentException("Size is 0");
-            }
-
-            _size--;
+            RemoveAt(Count - 1);
         }
 
         public void RemoveFront()
         {
-            if (Count == 0)
-            {
-                throw new ArgumentException("Size is 0");
-            }
-
-            _size--;
-
-            for (int i = 0; i < Count; i++)
-            {
-                _items[i] = _items[i + 1];
-            }
+            RemoveAt(0);
         }
 
         public void RemoveAt(int index)
         {
-            if (Count == 0)
-            {
-                throw new ArgumentException("Size is 0");
-            }
-
             if (index < 0 || index >= Count)
             {
                 throw new ArgumentException("Wrong index");
@@ -268,11 +243,6 @@ namespace ListLibrary
 
         public void RemoveAt(int index, int quantity)
         {
-            if (Count == 0)
-            {
-                throw new ArgumentException("Size is 0");
-            }
-
             if (Count < quantity + index || index < 0)
             {
                 throw new ArgumentException("Wrong index setted");
@@ -309,6 +279,7 @@ namespace ListLibrary
                 {
                     RemoveAt(i);
                     result = i;
+                    break;
                 }
             }
 
@@ -368,42 +339,12 @@ namespace ListLibrary
 
         public T Max()
         {
-            if (Count == 0)
-            {
-                throw new ArgumentException("Size is 0");
-            }
-
-            T result = _items[0];
-
-            for (int i = 1; i < Count; i++)
-            {
-                if (_items[i].CompareTo(result) == 1)
-                {
-                    result = _items[i];
-                }
-            }
-
-            return result;
+            return _items[IndexOfMax()];
         }
 
         public T Min()
         {
-            if (Count == 0)
-            {
-                throw new ArgumentException("Size is 0");
-            }
-
-            T result = _items[0];
-
-            for (int i = 1; i < Count; i++)
-            {
-                if (_items[i].CompareTo(result) == -1)
-                {
-                    result = _items[i];
-                }
-            }
-
-            return result;
+            return _items[IndexOfMin()];
         }
 
         public int IndexOfMax()
@@ -446,14 +387,24 @@ namespace ListLibrary
             return result;
         }
 
-        public void SortByDesc()
+        public void Sort(bool byAsc)
         {
-            Sort(-1);
-        }
+            int type = byAsc ? 1 : -1;
+            T x;
+            int j;
 
-        public void SortByAsc()
-        {
-            Sort(1);
+            for (int i = 1; i < Count; i++)
+            {
+                x = _items[i];
+                j = i;
+                while (j > 0 && _items[j - 1].CompareTo(x) == type)
+                {
+                    Swap(ref _items[j], ref _items[j - 1]);
+                    j -= 1;
+                }
+
+                _items[j] = x;
+            }
         }
 
         public void Reverse()
@@ -492,30 +443,6 @@ namespace ListLibrary
                 }
 
                 _items = newItems;
-
-                if (newCapacity < 0)
-                {
-                    _items = new T[_defaultCapacity];
-                }
-            }
-        }
-
-        private void Sort(int type)
-        {
-            T x;
-            int j;
-
-            for (int i = 1; i < Count; i++)
-            {
-                x = _items[i];
-                j = i;
-                while (j > 0 && _items[j - 1].CompareTo(x) == type)
-                {
-                    Swap(ref _items[j], ref _items[j - 1]);
-                    j -= 1;
-                }
-
-                _items[j] = x;
             }
         }
 

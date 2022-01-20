@@ -42,9 +42,7 @@ namespace ListLibrary
 
         int IndexOfMin(); //18
 
-        void SortByAsc(); //19
-
-        void SortByDesc(); //20
+        void Sort(bool byAsc); //19
 
         int Remove(T element); //21
 

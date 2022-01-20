@@ -28,22 +28,6 @@ namespace Tests
             CollectionAssert.AreEqual(expectedArray, instance);
         }
 
-        [Test]
-        public void RemoveBack_WhenSizeIsZero_ShouldThrowArgumentException()
-        {
-            try
-            {
-                _list.RemoveBack();
-            }
-            catch (ArgumentException ex)
-            {
-                Assert.AreEqual("Size is 0", ex.Message);
-                Assert.Pass();
-            }
-
-            Assert.Fail();
-        }
-
         [TestCase(new int[] { 1, 2, 3 }, new int[] { 2, 3 })]
         [TestCase(new int[] { 0 }, new int[0])]
         public void RemoveFront_WhenSizeIsBiggerZero_ShouldRemoveFirsttItem(int[] sourceArray, int[] expectedArray)
@@ -54,22 +38,6 @@ namespace Tests
 
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
-        }
-
-        [Test]
-        public void RemoveFront_WhenSizeIsZero_ShouldThrowArgumentException()
-        {
-            try
-            {
-                _list.RemoveFront();
-            }
-            catch (ArgumentException ex)
-            {
-                Assert.AreEqual("Size is 0", ex.Message);
-                Assert.Pass();
-            }
-
-            Assert.Fail();
         }
 
         [TestCase(new int[] { 1, 2, 3 }, 1, new int[] { 1, 3 })]
@@ -83,22 +51,6 @@ namespace Tests
 
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
-        }
-
-        [Test]
-        public void RemoveAt_WhenSizeIsZero_ShouldThrowArgumentException()
-        {
-            try
-            {
-                _list.RemoveAt(0);
-            }
-            catch (ArgumentException ex)
-            {
-                Assert.AreEqual("Size is 0", ex.Message);
-                Assert.Pass();
-            }
-
-            Assert.Fail();
         }
 
         [TestCase(-1)]
@@ -190,22 +142,6 @@ namespace Tests
 
             Assert.AreEqual(instance.Count, expectedArray.Length);
             CollectionAssert.AreEqual(expectedArray, instance);
-        }
-
-        [Test]
-        public void RemoveManyAt_WhenSizeIsZero_ShouldThrowArgumentException()
-        {
-            try
-            {
-                _list.RemoveAt(0, 1);
-            }
-            catch (ArgumentException ex)
-            {
-                Assert.AreEqual("Size is 0", ex.Message);
-                Assert.Pass();
-            }
-
-            Assert.Fail();
         }
 
         [TestCase(-1)]
