@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ListLibrary
 {
-    public interface IMyList<T> : IEnumerable<T> 
+    public interface IMyList<T> : IEnumerable<T>
     {
         void Add(T item); //1
 

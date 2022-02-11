@@ -8,7 +8,17 @@ namespace ListHW
     {
         static void Main(string[] args)
         {
-            BinaryTree<int> dsds = new BinaryTree<int>() { 5, 3, 15, 6, 7, 35, 13};
+            MyDoublyLinkedList<int> vs = new MyDoublyLinkedList<int>();
+            vs.Add(1);
+            vs.Add(2);
+            vs.AddByIndex(2, 3);
+            int[] ints = new int[3] { 4, 5, 6 };
+            vs.Add(ints);
+            int[] ints2 = new int[3] { 44, 445, 543 };
+            vs.AddByIndex(3, ints2);
+
+
+
         }
     }
 }

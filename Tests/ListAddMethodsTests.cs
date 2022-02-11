@@ -7,6 +7,7 @@ namespace Tests
 {
     [TestFixture(typeof(MyArrayList<int>))]
     [TestFixture(typeof(MyLinkedList<int>))]
+    [TestFixture(typeof(MyDoublyLinkedList<int>))]
     public class ListAddMethodsTests<T> where T : IMyList<int>, new()
     {
 
