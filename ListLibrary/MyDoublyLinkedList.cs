@@ -226,80 +226,275 @@ namespace ListLibrary
 
         #endregion
 
-
-        public int IndexOf(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int IndexOfMax()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int IndexOfMin()
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Max()
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Min()
-        {
-            throw new NotImplementedException();
-        }
+        #region Remove
 
         public int Remove(T element)
         {
-            throw new NotImplementedException();
+            int result = -1;
+
+            if (element == null)
+            {
+                throw new ArgumentException("Item can't be null");
+            }
+
+            if (Count == 0)
+            {
+                throw new ArgumentException("Size is 0");
+            }
+
+            for (int i = 0; i < Count; i++)
+            {
+                if (GetNodeByIndex(i).Value.Equals(element))
+                {
+                    GetNodeByIndex(i - 1).Next = GetNodeByIndex(i + 1);
+
+                    if (GetNodeByIndex(i + 1) != null)
+                    {
+                        GetNodeByIndex(i + 1).Previous = GetNodeByIndex(i - 1);
+                    }
+
+                    result = i;
+                    _size--;
+                    break;
+                }
+            }
+
+            return result;
         }
 
         public int RemoveAll(T element)
         {
-            throw new NotImplementedException();
+            if (element == null)
+            {
+                throw new ArgumentException("Item can't be null");
+            }
+
+            if (Count == 0)
+            {
+                throw new ArgumentException("Size is 0");
+            }
+
+            int result = 0;
+
+            for (int i = 0; i < Count; i++)
+            {
+                if (GetNodeByIndex(i).Value.Equals(element))
+                {
+                    GetNodeByIndex(i - 1).Next = GetNodeByIndex(i + 1);
+
+                    if (GetNodeByIndex(i) != null)
+                    {
+                        GetNodeByIndex(i).Previous = GetNodeByIndex(i - 1);
+                    }
+
+                    i--;
+                    _size--;
+                }
+            }
+
+            return result;
         }
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            if (Count == 0)
+            {
+                throw new ArgumentException("Size is 0");
+            }
+
+            if (index < 0 || index >= Count)
+            {
+                throw new ArgumentException("Wrong index");
+            }
+
+            GetNodeByIndex(index - 1).Next = GetNodeByIndex(index + 1);
+
+            if (GetNodeByIndex(index) != null)
+            {
+                GetNodeByIndex(index).Previous = GetNodeByIndex(index - 1);
+            }
+
+            --_size;
         }
 
         public void RemoveAt(int index, int quantity)
         {
-            throw new NotImplementedException();
+            if (Count == 0)
+            {
+                throw new ArgumentException("Size is 0");
+            }
+
+            if (Count < quantity + index || index < 0)
+            {
+                throw new ArgumentException("Wrong index setted");
+            }
+
+            GetNodeByIndex(index - 1).Next = GetNodeByIndex(index + quantity);
+
+            if (GetNodeByIndex(index + quantity - 1) != null)
+            {
+                GetNodeByIndex(index + quantity - 1).Previous = GetNodeByIndex(index - 1);
+            }
+
+            _size -= quantity;
         }
 
         public void RemoveBack()
         {
-            throw new NotImplementedException();
+            if (Count == 0)
+            {
+                throw new ArgumentException("Size is 0");
+            }
+
+            _size--;
+            GetNodeByIndex(Count - 1).Next = null;
         }
 
         public void RemoveBack(int quantity)
         {
-            throw new NotImplementedException();
+            if (Count < quantity)
+            {
+                throw new ArgumentException("Size is 0");
+            }
+
+            GetNodeByIndex(Count - quantity - 1).Next = null;
+            _size -= quantity;
         }
 
         public void RemoveFront()
         {
-            throw new NotImplementedException();
+            if (Count == 0)
+            {
+                throw new ArgumentException("Size is 0");
+            }
+
+            _root = GetNodeByIndex(1);
+            _size--;
         }
 
         public void RemoveFront(int quantity)
         {
-            throw new NotImplementedException();
+            if (Count < quantity)
+            {
+                throw new ArgumentException("Size is 0");
+            }
+
+            _root = GetNodeByIndex(quantity);
+            _size -= quantity;
+        }
+
+        #endregion
+
+        #region Search and Sort
+
+        public int IndexOf(T item)
+        {
+            if (item == null)
+            {
+                throw new ArgumentException("Item can't be null");
+            }
+
+            int result = -1;
+
+            for (int i = 0; i < Count; i++)
+            {
+                if (GetNodeByIndex(i).Value.Equals(item))
+                {
+                    result = i;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        public int IndexOfMax()
+        {
+            if (Count == 0)
+            {
+                throw new ArgumentException("Size is 0");
+            }
+
+            int result = 0;
+
+            for (int i = 1; i < Count; i++)
+            {
+                if (GetNodeByIndex(i).Value.CompareTo(GetNodeByIndex(result).Value) == 1)
+                {
+                    result = i;
+                }
+            }
+
+            return result;
+        }
+
+        public int IndexOfMin()
+        {
+            if (Count == 0)
+            {
+                throw new ArgumentException("Size is 0");
+            }
+
+            int result = 0;
+
+            for (int i = 1; i < Count; i++)
+            {
+                if (GetNodeByIndex(i).Value.CompareTo(GetNodeByIndex(result).Value) == -1)
+                {
+                    result = i;
+                }
+            }
+
+            return result;
+        }
+
+        public T Max()
+        {
+            return this[IndexOfMax()];
+        }
+
+        public T Min()
+        {
+            return this[IndexOfMin()];
         }
 
         public void Reverse()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < Count / 2; i++)
+            {
+                Swap(i, Count - 1 - i);
+            }
         }
 
         public void Sort(bool byAsc)
         {
-            throw new NotImplementedException();
+            int type = byAsc ? 1 : -1;
+            T x;
+            int j;
+
+            for (int i = 1; i < Count; i++)
+            {
+                x = GetNodeByIndex(i).Value;
+                j = i;
+                while (j > 0 && GetNodeByIndex(j - 1).Value.CompareTo(x) == type)
+                {
+                    Swap(j, j - 1);
+                    j -= 1;
+                }
+
+                GetNodeByIndex(j).Value = x;
+            }
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private void Swap(int i, int j)
+        {
+            T temp = GetNodeByIndex(i).Value;
+            GetNodeByIndex(i).Value = GetNodeByIndex(j).Value;
+            GetNodeByIndex(j).Value = temp;
         }
 
         private MyDoublyLinkedListNode<T> GetNodeByIndex(int index)
@@ -318,5 +513,8 @@ namespace ListLibrary
 
             return temp;
         }
+
+        #endregion
+
     }
 }
